@@ -30,4 +30,3 @@ def getListProduct(page=0):
 		arr.append(values)
 	data["product"]=arr
 	return data
-print(getProductId(1))

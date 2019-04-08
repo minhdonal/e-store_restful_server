@@ -1,22 +1,38 @@
-import mysql.connector
-from mysql.connector import Error
-try:
-    connection = mysql.connector.connect(host='localhost',
-                             database='chocola_store',
-                             user='root',
-                             password='')
-    if connection.is_connected():
-       db_Info = connection.get_server_info()
-       print("Connected to MySQL database... MySQL Server version on ",db_Info)
-       cursor = connection.cursor()
-       cursor.execute("select * from product where id=1")
-       record = cursor.fetchone()
-       print ("Your connected to - ", record)
-except Error as e :
-    print ("Error while connecting to MySQL", e)
-finally:
-    #closing database connection.
-    if(connection.is_connected()):
-        cursor.close()
-        connection.close()
-        print("MySQL connection is closed")
+from flask import Flask, render_template, request
+from flask_cors import CORS
+from flask import request, jsonify
+import pandas as pd
+import urllib.request
+
+import Account as Acc
+import product as pro
+app = Flask(__name__)
+cors = CORS(app, resource={r"/*":{"origins": "*"}})
+app.config["DEBUG"] = True
+@app.route('/',methods = ['POST', 'GET'])
+def home():
+    return "home"
+
+#login
+@app.route('/login')
+def login():
+    #Get username and password
+    username=request.args.get('username')
+    password= request.args.get('password')
+    #check in database
+    if(Acc.CheckAccount(username,password)):
+        return 'true'
+    return 'false'
+@app.route('/listproduct')
+def listproduct():
+    page = request.args.get('page',type=int)
+    listproduct= pro.getListProduct(page)
+    return jsonify(listproduct)
+@app.route('/product')
+def product():
+    idProduct = request.args.get('id',type = int)
+    product = pro.getProductId(idProduct)
+    return jsonify(product)
+app.run(debug = True)
+flask_cors.CORS(app, expose_headers='Authorization')
+    

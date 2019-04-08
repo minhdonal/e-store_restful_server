@@ -16,4 +16,3 @@ def CheckAccount(username,password):
 		values["password"]=result[3]
 		return values
 	return False
-print (CheckAccount('nam','nam'))
