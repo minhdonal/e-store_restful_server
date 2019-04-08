@@ -55,6 +55,7 @@ def setData (insertStr):
     cursor = connection.cursor()
     result  = cursor.execute(insertStr)
     connection.commit()
+    lastID =cursor.lastrowid
   except Error as e :
     print ("Error while set Data" ,e)
     return False
@@ -63,4 +64,6 @@ def setData (insertStr):
      if(connection.is_connected()):
         cursor.close()
         connection.close()
-        print("MySQL connection is closed")
+        return lastID
+
+
