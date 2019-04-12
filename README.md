@@ -15,3 +15,5 @@ pip install -U flask-cors
 cmd-> python main.py
 -> this page will start with localhost:5000
 
+-->Read the document file to better understand code
+

@@ -4,8 +4,8 @@ from flask import request, jsonify
 import pandas as pd
 import urllib.request
 
-import Account as Acc
-import product as pro
+import BUS.account as Acc
+import BUS.product as pro
 app = Flask(__name__)
 cors = CORS(app, resource={r"/*":{"origins": "*"}})
 app.config["DEBUG"] = True

@@ -1,4 +1,4 @@
-import connectDB as db 
+import DAO.connectDB as db 
 
 def getProductId(ids=1):
 	sqlString="select * from product where id= {}".format(ids)

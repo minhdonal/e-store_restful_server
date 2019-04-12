@@ -1,4 +1,4 @@
-import connectDB as db 
+import DAO.connectDB as db 
 
 def insertOrder(idcustomer):
 	sqlStringOrder = "INSERT INTO `orders`(`id_customer`) VALUES ('{}')".format(idcustomer)

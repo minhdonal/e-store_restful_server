@@ -1,4 +1,4 @@
-import connectDB as db 
+import DAO.connectDB as db 
 
 def insertCustomer():
 	sqlString = "INSERT INTO `customer`( `name`, `users`, `pass`) VALUES ('nam','nam','nam')"
