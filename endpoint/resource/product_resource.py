@@ -18,8 +18,28 @@ class ProductResource(Resource):
             abort(404, message="Product {} doesn't exist".format(id))
         return product
 
+    @marshal_with(product_fields)
+    def post(self):
+        pass
+
+    @marshal_with(product_fields)
+    def put(self, id):
+        pass
+
+    @marshal_with(product_fields)
+    def delete(self, id):
+        pass
+
 class ProductListResource(Resource):
+    '''
+    - This using for all product activity
+    '''
+
     @marshal_with(product_fields)
     def get(self):
         products = Product.query.all()
         return products
+
+    @marshal_with(product_fields)
+    def post(self):
+        pass
