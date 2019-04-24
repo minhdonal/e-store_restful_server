@@ -1,23 +1,28 @@
 from flask import Flask, jsonify
-from flask import abort
-from flask import request
-from flaskext.mysql import MySQL
+from flask_restful import Api
+from flask_sqlalchemy import SQLAlchemy
 
+from endpoint.model.product import db
+import setting
 
-# Config App
 app = Flask(__name__)
-mysql = MySQL()
 
-# MySQL default configurations
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = ''
-app.config['MYSQL_DATABASE_DB'] = 'chocola_store'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-mysql.init_app(app)
-# cursor = mysql.connect().cursor()
+app.config['SQLALCHEMY_DATABASE_URI'] = setting.SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = setting.SQLALCHEMY_TRACK_MODIFICATIONS
+app.config['BUNDLE_ERRORS'] = setting.BUNDLE_ERRORS
 
-# Routing
-@app.route('/', methods = ['POST', 'GET'])
+api = Api(app)
+db = SQLAlchemy(app)
+db.init_app(app)
+
+# Setup the API resource routing
+from endpoint.resource.product_resource import ProductResource, ProductListResource
+
+api.prefix = '/api'
+api.add_resource(ProductListResource, '/products/')
+api.add_resource(ProductResource, '/products/<int:product_id>')
+
+@app.route('/')
 def index():
     return 'Hello World'
 
