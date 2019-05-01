@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `categories`
 --
 
-CREATE TABLE `categories` (
+CREATE TABLE `category` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `parent_id` int(11) DEFAULT NULL,
@@ -39,10 +39,10 @@ CREATE TABLE `categories` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order_products`
+-- Table structure for table `order_product`
 --
 
-CREATE TABLE `order_products` (
+CREATE TABLE `order_line` (
   `id` int(11) NOT NULL,
   `order_id` int(11) DEFAULT NULL,
   `sku` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -58,10 +58,10 @@ CREATE TABLE `order_products` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `products`
+-- Table structure for table `product`
 --
 
-CREATE TABLE `products` (
+CREATE TABLE `product` (
   `id` int(11) NOT NULL,
   `sku` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -78,10 +78,10 @@ CREATE TABLE `products` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product_categories`
+-- Table structure for table `product_category`
 --
 
-CREATE TABLE `product_categories` (
+CREATE TABLE `product_category` (
   `category_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -94,7 +94,7 @@ CREATE TABLE `product_categories` (
 -- Table structure for table `product_statuses`
 --
 
-CREATE TABLE `product_statuses` (
+CREATE TABLE `product_statuss` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -104,10 +104,10 @@ CREATE TABLE `product_statuses` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product_tags`
+-- Table structure for table `product_tag`
 --
 
-CREATE TABLE `product_tags` (
+CREATE TABLE `product_tag` (
   `product_id` int(11) NOT NULL,
   `tag_id` int(11) NOT NULL,
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -120,7 +120,7 @@ CREATE TABLE `product_tags` (
 -- Table structure for table `roles`
 --
 
-CREATE TABLE `roles` (
+CREATE TABLE `role` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -130,10 +130,10 @@ CREATE TABLE `roles` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sales_orders`
+-- Table structure for table `sale_order`
 --
 
-CREATE TABLE `sales_orders` (
+CREATE TABLE `sales_order` (
   `id` int(11) NOT NULL,
   `order_date` date NOT NULL,
   `total` decimal(10,0) NOT NULL,
@@ -145,10 +145,10 @@ CREATE TABLE `sales_orders` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tags`
+-- Table structure for table `tag`
 --
 
-CREATE TABLE `tags` (
+CREATE TABLE `tag` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -158,10 +158,10 @@ CREATE TABLE `tags` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Table structure for table `user`
 --
 
-CREATE TABLE `users` (
+CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -174,10 +174,10 @@ CREATE TABLE `users` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_roles`
+-- Table structure for table `user_role`
 --
 
-CREATE TABLE `user_roles` (
+CREATE TABLE `user_role` (
   `user_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -191,71 +191,71 @@ CREATE TABLE `user_roles` (
 --
 -- Indexes for table `categories`
 --
-ALTER TABLE `categories`
+ALTER TABLE `category`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `order_products`
+-- Indexes for table `order_product`
 --
-ALTER TABLE `order_products`
+ALTER TABLE `order_line`
   ADD PRIMARY KEY (`id`),
   ADD KEY `order_id` (`order_id`);
 
 --
--- Indexes for table `products`
+-- Indexes for table `product`
 --
-ALTER TABLE `products`
+ALTER TABLE `product`
   ADD PRIMARY KEY (`id`),
   ADD KEY `product_status_id` (`product_status_id`);
 
 --
--- Indexes for table `product_categories`
+-- Indexes for table `product_category`
 --
-ALTER TABLE `product_categories`
+ALTER TABLE `product_category`
   ADD PRIMARY KEY (`category_id`,`product_id`);
 
 --
 -- Indexes for table `product_statuses`
 --
-ALTER TABLE `product_statuses`
+ALTER TABLE `product_status`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `product_tags`
+-- Indexes for table `product_tag`
 --
-ALTER TABLE `product_tags`
+ALTER TABLE `product_tag`
   ADD PRIMARY KEY (`product_id`,`tag_id`),
   ADD KEY `tag_id` (`tag_id`);
 
 --
 -- Indexes for table `roles`
 --
-ALTER TABLE `roles`
+ALTER TABLE `role`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `sales_orders`
+-- Indexes for table `sale_order`
 --
-ALTER TABLE `sales_orders`
+ALTER TABLE `sales_order`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indexes for table `tags`
+-- Indexes for table `tag`
 --
-ALTER TABLE `tags`
+ALTER TABLE `tag`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users`
+-- Indexes for table `user`
 --
-ALTER TABLE `users`
+ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `user_roles`
+-- Indexes for table `user_role`
 --
-ALTER TABLE `user_roles`
+ALTER TABLE `user_role`
   ADD PRIMARY KEY (`user_id`,`role_id`),
   ADD KEY `role_id` (`role_id`);
 
@@ -266,49 +266,49 @@ ALTER TABLE `user_roles`
 --
 -- AUTO_INCREMENT for table `categories`
 --
-ALTER TABLE `categories`
+ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `order_products`
+-- AUTO_INCREMENT for table `order_product`
 --
-ALTER TABLE `order_products`
+ALTER TABLE `order_line`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `products`
+-- AUTO_INCREMENT for table `product`
 --
-ALTER TABLE `products`
+ALTER TABLE `product`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product_statuses`
 --
-ALTER TABLE `product_statuses`
+ALTER TABLE `product_status`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
-ALTER TABLE `roles`
+ALTER TABLE `role`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `sales_orders`
+-- AUTO_INCREMENT for table `sale_order`
 --
-ALTER TABLE `sales_orders`
+ALTER TABLE `sales_order`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tags`
+-- AUTO_INCREMENT for table `tag`
 --
-ALTER TABLE `tags`
+ALTER TABLE `tag`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT for table `user`
 --
-ALTER TABLE `users`
+ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -316,43 +316,43 @@ ALTER TABLE `users`
 --
 
 --
--- Constraints for table `order_products`
+-- Constraints for table `order_product`
 --
-ALTER TABLE `order_products`
-  ADD CONSTRAINT `order_products_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `sales_orders` (`id`);
+ALTER TABLE `order_line`
+  ADD CONSTRAINT `order_and_order_line` FOREIGN KEY (`order_id`) REFERENCES `sales_order` (`id`);
 
 --
--- Constraints for table `products`
+-- Constraints for table `product`
 --
-ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`product_status_id`) REFERENCES `product_statuses` (`id`),
-  ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`id`) REFERENCES `product_categories` (`category_id`);
+ALTER TABLE `product`
+  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`product_status_id`) REFERENCES `product_status` (`id`),
+  ADD CONSTRAINT `product_ibfk_2` FOREIGN KEY (`id`) REFERENCES `product_category` (`category_id`);
 
 --
--- Constraints for table `product_categories`
+-- Constraints for table `product_category`
 --
-ALTER TABLE `product_categories`
-  ADD CONSTRAINT `product_categories_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
+ALTER TABLE `product_category`
+  ADD CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
 
 --
--- Constraints for table `product_tags`
+-- Constraints for table `product_tag`
 --
-ALTER TABLE `product_tags`
-  ADD CONSTRAINT `product_tags_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
-  ADD CONSTRAINT `product_tags_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`);
+ALTER TABLE `product_tag`
+  ADD CONSTRAINT `product_tag_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
+  ADD CONSTRAINT `product_tag_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`);
 
 --
--- Constraints for table `sales_orders`
+-- Constraints for table `sale_order`
 --
-ALTER TABLE `sales_orders`
-  ADD CONSTRAINT `sales_orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+ALTER TABLE `sale_order`
+  ADD CONSTRAINT `sale_order_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
--- Constraints for table `user_roles`
+-- Constraints for table `user_role`
 --
-ALTER TABLE `user_roles`
-  ADD CONSTRAINT `user_roles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `user_roles_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
+ALTER TABLE `user_role`
+  ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `user_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
