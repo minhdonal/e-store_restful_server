@@ -18,7 +18,7 @@ class ProductResource(Resource):
         product = Product.query.filter_by(id=product_id).first()
         if not product:
             abort(400, message="Product {} doesn't exist".format(product_id))
-        return {'id': product.id, 'name': product.name, 'vll....': 'Do cho'}
+        return product
 
     @marshal_with(product_fields)
     def post(self):

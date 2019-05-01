@@ -209,7 +209,7 @@ ALTER TABLE `order_line`
 --
 ALTER TABLE `product`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `product_status_id` (`product_status_id`);
+  -- ADD KEY `product_status_id` (`product_status_id`);
 
 --
 -- Indexes for table `product_category`
