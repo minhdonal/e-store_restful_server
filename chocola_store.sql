@@ -71,6 +71,7 @@ CREATE TABLE `product` (
   `base_price` decimal(10,0) DEFAULT '0',
   `sale_price` decimal(10,0) DEFAULT '0',
   `discount_price` decimal(10,0) DEFAULT '0',
+  `category_id` int(11) NOT NULL,
   `img_url` varchar(255),
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
@@ -78,16 +79,16 @@ CREATE TABLE `product` (
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `product_category`
---
+-- --
+-- -- Table structure for table `product_category`
+-- --
 
-CREATE TABLE `product_category` (
-  `category_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- CREATE TABLE `product_category` (
+--   `category_id` int(11) NOT NULL,
+--   `product_id` int(11) NOT NULL,
+--   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+--   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -213,8 +214,8 @@ ALTER TABLE `product`
 --
 -- Indexes for table `product_category`
 --
-ALTER TABLE `product_category`
-  ADD PRIMARY KEY (`category_id`,`product_id`);
+-- ALTER TABLE `product_category`
+--   ADD PRIMARY KEY (`category_id`,`product_id`);
 
 --
 -- Indexes for table `product_statuses`
@@ -328,13 +329,13 @@ ALTER TABLE `order_line`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`product_status_id`) REFERENCES `product_status` (`id`),
-  ADD CONSTRAINT `product_ibfk_2` FOREIGN KEY (`id`) REFERENCES `product_category` (`category_id`);
+  ADD CONSTRAINT `product_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
 
 --
 -- Constraints for table `product_category`
 --
-ALTER TABLE `product_category`
-  ADD CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
+-- ALTER TABLE `product_category`
+--   ADD CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
 
 --
 -- Constraints for table `product_tag`
