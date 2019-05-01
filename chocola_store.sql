@@ -48,7 +48,7 @@ CREATE TABLE `order_line` (
   `sku` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
-  `price` decimal(10,0) NOT NULL,
+  `price_unit` decimal(10,0) NOT NULL,
   `quantity` int(11) NOT NULL,
   `subtotal` decimal(10,0) NOT NULL,
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -67,10 +67,10 @@ CREATE TABLE `product` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
   `product_status_id` int(11) NOT NULL,
-  `regular_price` decimal(10,0) DEFAULT '0',
-  `discount_price` decimal(10,0) DEFAULT '0',
   `quantity` int(11) DEFAULT '0',
-  `taxable` tinyint(1) DEFAULT '0',
+  `base_price` decimal(10,0) DEFAULT '0',
+  `sale_price` decimal(10,0) DEFAULT '0',
+  `discount_price` decimal(10,0) DEFAULT '0',
   `img_url` varchar(255),
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
@@ -95,7 +95,7 @@ CREATE TABLE `product_category` (
 -- Table structure for table `product_statuses`
 --
 
-CREATE TABLE `product_statuss` (
+CREATE TABLE `product_status` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -134,7 +134,7 @@ CREATE TABLE `role` (
 -- Table structure for table `sale_order`
 --
 
-CREATE TABLE `sales_order` (
+CREATE TABLE `sale_order` (
   `id` int(11) NOT NULL,
   `order_date` date NOT NULL,
   `total` decimal(10,0) NOT NULL,
@@ -238,7 +238,7 @@ ALTER TABLE `role`
 --
 -- Indexes for table `sale_order`
 --
-ALTER TABLE `sales_order`
+ALTER TABLE `sale_order`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
@@ -298,7 +298,7 @@ ALTER TABLE `role`
 --
 -- AUTO_INCREMENT for table `sale_order`
 --
-ALTER TABLE `sales_order`
+ALTER TABLE `sale_order`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -321,7 +321,7 @@ ALTER TABLE `user`
 -- Constraints for table `order_product`
 --
 ALTER TABLE `order_line`
-  ADD CONSTRAINT `order_and_order_line` FOREIGN KEY (`order_id`) REFERENCES `sales_order` (`id`);
+  ADD CONSTRAINT `order_and_order_line` FOREIGN KEY (`order_id`) REFERENCES `sale_order` (`id`);
 
 --
 -- Constraints for table `product`
@@ -334,7 +334,7 @@ ALTER TABLE `product`
 -- Constraints for table `product_category`
 --
 ALTER TABLE `product_category`
-  ADD CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
+  ADD CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
 
 --
 -- Constraints for table `product_tag`
@@ -349,12 +349,11 @@ ALTER TABLE `product_tag`
 ALTER TABLE `sale_order`
   ADD CONSTRAINT `sale_order_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
---
 -- Constraints for table `user_role`
 --
 ALTER TABLE `user_role`
   ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  ADD CONSTRAINT `user_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
+  ADD CONSTRAINT `user_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
