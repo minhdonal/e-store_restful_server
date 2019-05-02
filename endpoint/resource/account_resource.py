@@ -67,3 +67,7 @@ class CreateAccount(Resource):
         last_name =  request.form['last_name']
         adress =  request.form['adress']
         phone = request.form['phone']
+        inst = Account(emails , password, fisrt_name, 
+        last_name, adress, phone)
+        inst.add()
+        inst.commit()
