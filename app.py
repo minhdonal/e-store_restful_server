@@ -17,10 +17,13 @@ db.init_app(app)
 
 # Setup the API resource routing
 from endpoint.resource.product_resource import ProductResource, ProductListResource
+from endpoint.resource.account_resource import AccountResource
 
 api.prefix = '/api'
 api.add_resource(ProductListResource, '/products/')
 api.add_resource(ProductResource, '/products/<int:product_id>')
+
+api.add_resource(AccountResource, '/account/')
 
 @app.route('/')
 def index():
