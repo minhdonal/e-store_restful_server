@@ -472,15 +472,6 @@ ALTER TABLE `order_products`
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
   -- ADD KEY `product_status_id` (`product_status_id`);
-<<<<<<< HEAD
-=======
-
---
--- Indexes for table `product_category`
---
--- ALTER TABLE `product_category`
---   ADD PRIMARY KEY (`category_id`,`product_id`);
->>>>>>> 13828851bbb149100f5737de94b376e10765a96a
 
 --
 -- Indexes for table `product_statuses`
