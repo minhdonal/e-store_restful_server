@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from endpoint.model.product import db
 import setting
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = setting.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = setting.SQLALCHEMY_TRACK_MODIFICATIONS
@@ -19,7 +19,7 @@ db.init_app(app)
 from endpoint.resource.product_resource import ProductResource, ProductListResource
 
 api.prefix = '/api'
-api.add_resource(ProductListResource, '/products/')
+api.add_resource(ProductListResource, '/products')
 api.add_resource(ProductResource, '/products/<int:product_id>')
 
 @app.route('/')
