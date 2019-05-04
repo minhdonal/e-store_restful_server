@@ -7,6 +7,7 @@ from flask import abort, jsonify
 product_fields = {
     'id': fields.Integer,
     'name': fields.String,
+    'img_url': fields.String
 }
 
 product_parser = reqparse.RequestParser()
