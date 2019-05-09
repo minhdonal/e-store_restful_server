@@ -1,10 +1,18 @@
+from endpoint.model.product import *
+
 from flask_restful import Resource, reqparse, request
 from flask_restful import fields, marshal_with, marshal
-from endpoint.model.product import *
+from flask import abort, jsonify
 
 product_fields = {
     'id': fields.Integer,
+    'title': fields.String,
+    'description': fields.String,
+    'img_url': fields.String,
+    'regular_price': fields.Integer,
+    'quantity': fields.Integer
     'name': fields.String,
+    'img_url': fields.String
 }
 
 product_parser = reqparse.RequestParser()
@@ -15,7 +23,7 @@ class ProductResource(Resource):
     def get(self, product_id):
         product = Product.query.filter_by(id=product_id).first()
         if not product:
-            abort(404, message="Product {} doesn't exist".format(id))
+            abort(400, message="Product {} doesn't exist".format(product_id))
         return product
 
     @marshal_with(product_fields)

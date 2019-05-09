@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from endpoint.model.product import db
 import setting
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = setting.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = setting.SQLALCHEMY_TRACK_MODIFICATIONS
@@ -17,11 +17,14 @@ db.init_app(app)
 
 # Setup the API resource routing
 from endpoint.resource.product_resource import ProductResource, ProductListResource
+from endpoint.resource.account_resource import AccountResource
 
 api.prefix = '/api'
-api.add_resource(ProductListResource, '/products/')
+api.add_resource(ProductListResource, '/products')
 api.add_resource(ProductResource, '/products/<int:product_id>')
 
+api.add_resource(AccountResource, '/account/')
+api.add_resource(CreateAccount, '/createacc/')
 @app.route('/')
 def index():
     return 'Hello World'
