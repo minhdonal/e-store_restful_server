@@ -16,11 +16,14 @@ db = SQLAlchemy(app)
 db.init_app(app)
 
 # Setup the API resource routing
-from endpoint.resource.product_resource import ProductResource, ProductListResource
-
+from endpoint.resource.product_resource import (ProductResource, 
+        ProductListResource, RecomendProduct)
+from endpoint.resource.algorthm_resource import AlgorithmResource
 api.prefix = '/api'
 api.add_resource(ProductListResource, '/products')
 api.add_resource(ProductResource, '/products/<int:product_id>')
+api.add_resource(RecomendProduct, '/recomend')
+api.add_resource(AlgorithmResource, '/algorthm')
 
 @app.route('/')
 def index():
