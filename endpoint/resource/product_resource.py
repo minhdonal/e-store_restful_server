@@ -6,6 +6,11 @@ from flask import abort, jsonify
 
 product_fields = {
     'id': fields.Integer,
+    'title': fields.String,
+    'description': fields.String,
+    'img_url': fields.String,
+    'regular_price': fields.Integer,
+    'quantity': fields.Integer
     'name': fields.String,
     'img_url': fields.String
 }
