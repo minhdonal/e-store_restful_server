@@ -1,5 +1,5 @@
 from endpoint.model.product import *
-
+from endpoint.model.recomend_product import Recomend
 from flask_restful import Resource, reqparse, request
 from flask_restful import fields, marshal_with, marshal
 from flask import abort, jsonify
@@ -12,7 +12,12 @@ product_fields = {
     'regular_price': fields.Integer,
     'quantity': fields.Integer
     'name': fields.String,
-    'img_url': fields.String
+    'img_url': fields.String,
+    'description': fields.String,
+    'title': fields.String,
+    'regular_price': fields.Float,
+    'discount_price': fields.Float,
+    'quantity': fields.Integer
 }
 
 product_parser = reqparse.RequestParser()
@@ -51,3 +56,18 @@ class ProductListResource(Resource):
     @marshal_with(product_fields)
     def post(self):
         pass
+
+class RecomendProduct(Resource):
+    """
+    this return recomend product when get url
+    ex: http://localhost:5000/api/recomend?search_key=burgers
+    this will return product recomend when buy burgers 
+    """
+    @marshal_with(product_fields)
+    def get(self):
+        search_key = request.args.get('search_key',type = str)
+        Re = Recomend()
+        list_recomend = Re.search(search_key)
+        query = Product.query.filter(Product.name.in_(list_recomend))
+        results = query.all()
+        return results
