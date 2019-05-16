@@ -23,13 +23,14 @@ class Product(db.Model):
             return False
         
         return """
-            Id: {}, 
-            name: {},
-            title: {},
-            description: {},
-            img_url: {},
-            regular_price: {},
-            quantity: {}
-        """.format(self.id, self.name, self.title, 
-        self.description, self.img_url, 
-        self.regular_price, self.quantity)
+            'id': {}, 
+            'name': {},
+            'title': {},
+            'description': {},
+            'img_url': {},
+            'regular_price': {},
+            'quantity': {}
+        """.format(
+            self.id, self.name, self.title, 
+            self.description, self.img_url, 
+            self.regular_price, self.quantity)

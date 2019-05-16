@@ -27,12 +27,17 @@ class AccountResource(Resource):
     def post(self):
         emails =  request.form['email']
         password =  request.form['password']
-        result = Account.query.filter_by(email=emails,
-        password_hash=password,active=1).first()
+        result = Account.query.filter_by(
+            email=emails,
+            password_hash=password,
+            active=1
+        ).first()
+
         if not result:
             abort(400, message="Account {} doesn't exist".format(emails))
         account_id = UserRoles.query.filter_by(user_id=result.return_id()).first()
         user_role = account_id.return_role_id()
+
         if user_role == 3:
             temp_fields = result
             #convert object class to dict --user var(obj) --
@@ -58,6 +63,7 @@ class AccountResource(Resource):
     @marshal_with(account_fields)
     def delete(self, id):
         pass
+
 class CreateAccount(Resource):
     #create account in database
     def post(self):

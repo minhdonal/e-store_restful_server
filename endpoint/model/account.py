@@ -14,26 +14,28 @@ class Account(db.Model):
     phone = db.Column(db.Integer)
     active = db.Column(db.Integer)
     password_hash = db.Column(db.String(50))
+
     def __init__(self, name=None):
         self.name = name
+
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
     def return_id(self):
-        return self.id        
+        return self.id
+
     def __init__(self):
-        return """
-        id: {}, 
-        email: {},
-        first_name: {},
-        last_name: {},
-        phone: {}
-        """.format(self.id, self.email, 
-        self.first_name, 
-        self.last_name,
-        self.phone)
+        res = {
+            'id': self.id, 
+            'email': self.email,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'phone': self.phone
+        }
+        return eval(res)
 
 class UserRoles(db.Model):
     __tablename__ = 'user_roles'
@@ -43,5 +45,3 @@ class UserRoles(db.Model):
 
     def return_role_id(self):
         return self.role_id
-
-
