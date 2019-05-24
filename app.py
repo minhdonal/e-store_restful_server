@@ -19,6 +19,11 @@ db.init_app(app)
 from endpoint.resource.product_resource import (
 		ProductResource, ProductListResource, RecomendProduct)
 from endpoint.resource.algorthm_resource import AlgorithmResource
+from endpoint.resource.account_resource import (AccountResource,
+        CreateAccount, CreateRoleUser)
+
+from endpoint.resource.cart_resource import (SaleOrderResource,
+        OrderLineResource)
 
 api.prefix = '/api'
 api.add_resource(ProductListResource, '/products')
@@ -26,8 +31,12 @@ api.add_resource(ProductResource, '/products/<int:product_id>')
 api.add_resource(RecomendProduct, '/recomend')
 api.add_resource(AlgorithmResource, '/algorthm')
 
-api.add_resource(AccountResource, '/account/')
-api.add_resource(CreateAccount, '/createacc/')
+api.add_resource(AccountResource, '/account')
+api.add_resource(CreateAccount, '/createaccount')
+api.add_resource(CreateRoleUser, '/createroleuser')
+
+api.add_resource(SaleOrderResource, '/addneworder')
+api.add_resource(OrderLineResource, '/addneworderline')
 
 @app.route('/')
 def index():

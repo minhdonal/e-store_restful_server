@@ -16,8 +16,19 @@ class Product(db.Model):
     quantity = db.Column(db.Integer)
     taxable = db.Column(db.Boolean)
 
-    def __init__(self, name=None):
+    def __init__(self, name, img_url, description,
+    title, product_status_id, regular_price, discount_price,
+    quantity, taxable):
         self.name = name
+        self.img_url = img_url
+        self.description = description
+        self.title = title
+        self.product_status_id = product_status_id
+        self.regular_price = regular_price
+        self.discount_price = discount_price
+        self.quantity = quantity
+        self.taxable
+
 
     def __repr__(self):
         if product_status_id != 1:

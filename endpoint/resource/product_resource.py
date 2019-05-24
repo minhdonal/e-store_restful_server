@@ -10,7 +10,7 @@ product_fields = {
     'description': fields.String,
     'img_url': fields.String,
     'regular_price': fields.Integer,
-    'quantity': fields.Integer
+    'quantity': fields.Integer,
     'name': fields.String,
     'img_url': fields.String,
     'description': fields.String,
@@ -31,18 +31,6 @@ class ProductResource(Resource):
             abort(400, message="Product {} doesn't exist".format(product_id))
         return product
 
-    @marshal_with(product_fields)
-    def post(self):
-        pass
-
-    @marshal_with(product_fields)
-    def put(self, id):
-        pass
-
-    @marshal_with(product_fields)
-    def delete(self, id):
-        pass
-
 class ProductListResource(Resource):
     '''
     - This using for all product activity
@@ -52,10 +40,42 @@ class ProductListResource(Resource):
     def get(self):
         products = Product.query.all()
         return products
-
-    @marshal_with(product_fields)
+    #insert new product
     def post(self):
-        pass
+        try:
+            name = request.form['name']
+            img_url = request.form['img_url']
+            description = request.form['description']
+            title = request.form['title']
+            product_status_id = request.form['status']
+            regular_price = request.form['price']
+            discount_price = request.form['discount']
+            quantity = request.form['quantity']
+            taxable = request.form['taxable']
+
+            new_product = Product(name, img_url, description,
+            title, product_status_id, regular_price, discount_price,
+            quantity,taxable)
+
+            db.session.add(new_product)
+            db.session.flush()
+            #refesh will help get a new id    
+            db.session.refresh(new_product)
+            new_id = new_product.id
+            response_object = {
+                'status': 'success',
+                'message': 'Successfully registered.',
+                'new_id': new_id
+                }
+            return response_object, 201
+        except Exception as e:
+            response_object = {
+                'status': 'fail',
+                'message': 'Some error occurred. Please try again.'
+            }
+            return response_object, 401
+
+
 
 class RecomendProduct(Resource):
     """
