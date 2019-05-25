@@ -6,15 +6,10 @@ from flask import abort, jsonify
 
 product_fields = {
     'id': fields.Integer,
-    'title': fields.String,
+    'name': fields.String,
     'description': fields.String,
     'img_url': fields.String,
     'regular_price': fields.Integer,
-    'quantity': fields.Integer
-    'name': fields.String,
-    'img_url': fields.String,
-    'description': fields.String,
-    'title': fields.String,
     'regular_price': fields.Float,
     'discount_price': fields.Float,
     'quantity': fields.Integer
@@ -50,7 +45,7 @@ class ProductListResource(Resource):
 
     @marshal_with(product_fields)
     def get(self):
-        products = Product.query.all()
+        products = Product.query.limit(20).all()
         return products
 
     @marshal_with(product_fields)
@@ -60,14 +55,19 @@ class ProductListResource(Resource):
 class RecomendProduct(Resource):
     """
     this return recomend product when get url
-    ex: http://localhost:5000/api/recomend?search_key=burgers
+    ex: http://localhost:5000/api/recommend?search_key=burgers
     this will return product recomend when buy burgers 
     """
     @marshal_with(product_fields)
     def get(self):
         search_key = request.args.get('search_key',type = str)
+        if not search_key:
+            return Product.query.limit(6).all()
         Re = Recomend()
         list_recomend = Re.search(search_key)
         query = Product.query.filter(Product.name.in_(list_recomend))
-        results = query.all()
+        results = query.limit(6).all()
+        if not results:
+            return Product.query.limit(6).all()
+        print(results)
         return results

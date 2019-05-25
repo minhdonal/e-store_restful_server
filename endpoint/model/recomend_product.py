@@ -25,5 +25,3 @@ class Recomend():
             arr_fist = obj.get('fist')
             if (item in arr_fist):
                 return obj.get('next')
-
-

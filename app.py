@@ -19,11 +19,12 @@ db.init_app(app)
 from endpoint.resource.product_resource import (
 		ProductResource, ProductListResource, RecomendProduct)
 from endpoint.resource.algorthm_resource import AlgorithmResource
+from endpoint.resource.account_resource import AccountResource, CreateAccount
 
 api.prefix = '/api'
 api.add_resource(ProductListResource, '/products')
 api.add_resource(ProductResource, '/products/<int:product_id>')
-api.add_resource(RecomendProduct, '/recomend')
+api.add_resource(RecomendProduct, '/recommend')
 api.add_resource(AlgorithmResource, '/algorthm')
 
 api.add_resource(AccountResource, '/account/')
