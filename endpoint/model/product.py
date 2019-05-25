@@ -1,7 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
-
 class Product(db.Model):
     __tablename__ = 'product'
 
@@ -16,13 +15,10 @@ class Product(db.Model):
     quantity = db.Column(db.Integer)
     taxable = db.Column(db.Boolean)
 
-    def __init__(self, name=None):
-        self.name = name
+    def __init__(self, **kwargs):
+        super(Product, self).__init__(**kwargs)
 
-    def __repr__(self):
-        if product_status_id != 1:
-            return False
-        
+    def __repr__(self):        
         return """
             'id': {}, 
             'name': {},
