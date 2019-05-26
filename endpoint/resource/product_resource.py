@@ -65,11 +65,13 @@ class RecomendProduct(Resource):
         search_key = request.args.get('search_key',type = str)
         Re = Recomend()
         list_recomend = Re.search(search_key)
+        if not search_key or not list_recomend:
+            return db.session.query(Product).limit(6).all()
         results = db.session.query(Product).filter(
             Product.name.in_(list_recomend)
         ).limit(6).all()
 
-        if not results or len(results) < 6:
+        if not results or results and len(results) < 6:
             ext_results = db.session.query(Product).limit(6 - len(results)).all()
             results = results + ext_results
         print(results)

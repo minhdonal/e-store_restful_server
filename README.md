@@ -1,20 +1,13 @@
-# xnm_android_coursework
+#xnm_android_coursework
 Coursework of Mobile Application Development Class
 
-#setup evn backend
--- connect mysql with python/Flask --
-pip install mysql-connector-python
-link: https://pynative.com/install-mysql-connector-python/
-
--- flask --
-Install Flask py -3 -m venv venv 
-pip install Flask
-
-#Update dev-setup:
+#Needed Package: Using pip to install
+- Flask==1.0.2
 - flask-alchemy
 - flask-restful
+- SQLAlchemy
 
---start--
+#Start Project
 cmd >> python app.py
 
 ###this page will start with localhost:5000
