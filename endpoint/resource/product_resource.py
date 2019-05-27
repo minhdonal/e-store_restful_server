@@ -23,6 +23,7 @@ class ProductResource(Resource):
     @marshal_with(product_fields)
     def get(self, product_id):
         product = db.session.query(Product).filter_by(id=product_id).first()
+        db.session.remove()
         if not product:
             abort(400, message="Product {} doesn't exist".format(product_id))
         return product
@@ -48,6 +49,7 @@ class ProductListResource(Resource):
     def get(self):
         # products = Product.query.limit(20).all()
         products = db.session.query(Product).limit(20).all()
+        db.session.remove()
         return products
 
     @marshal_with(product_fields)
@@ -67,12 +69,15 @@ class RecomendProduct(Resource):
         list_recomend = Re.search(search_key)
         if not search_key or not list_recomend:
             return db.session.query(Product).limit(6).all()
-        results = db.session.query(Product).filter(
-            Product.name.in_(list_recomend)
-        ).limit(6).all()
 
+        results = db.session.query(Product).filter(
+            Product.name.in_(list_recomend)).limit(6).all()
+
+        # If don't enough 6, add more product with the same categ_id
         if not results or results and len(results) < 6:
-            ext_results = db.session.query(Product).limit(6 - len(results)).all()
+            ext_results = db.session.query(
+                Product).limit(6 - len(results)).all()
             results = results + ext_results
-        print(results)
+
+        db.session.remove()
         return results

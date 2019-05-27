@@ -1,9 +1,7 @@
 from endpoint.model.account import *
-
+from flask import abort, jsonify, request
 from flask_restful import Resource, reqparse, request
 from flask_restful import fields, marshal_with, marshal
-from flask import abort, jsonify
-from flask import request, jsonify
 
 account_fields = {
     'role': fields.String,
