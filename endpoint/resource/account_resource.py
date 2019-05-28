@@ -3,7 +3,7 @@ import uuid
 from flask_restful import Resource, reqparse, request
 from flask_restful import fields, marshal_with, marshal
 from flask import abort, jsonify
-from flask import request, jsonify
+from flask import request
 
 account_fields = {
     'role': fields.String,
@@ -33,29 +33,33 @@ class AccountResource(Resource):
             password_hash=password,
             active=1
         ).first()
-
+        response_object = {
+                'status': 'fail',
+                'message': 'Some error occurred. Please try again.'
+            }
         if not result:
-            abort(400, message="Account {} doesn't exist".format(emails))
+            return response_object, 401
         account_id = UserRoles.query.filter_by(user_id=result.return_id()).first()
-        user_role = account_id.return_role_id()
-
+        user_role = int(account_id.return_role_id())
         if user_role == 3:
-            temp_fields = result
-            #convert object class to dict --user var(obj) --
-            temp_fields = vars(temp_fields)
-            temp_fields['role'] = 'customer'
+            temp_fields = {
+                'id_user': result.return_id(),
+                'role':'customer'
+            }
             return temp_fields
         if user_role == 2:
-            temp_fields = result
-            temp_fields = vars(temp_fields)
-            temp_fields['role'] = 'employer'
+            temp_fields = {
+                'id_user': result.return_id(),
+                'role':'employer'
+            }
             return temp_fields
         if user_role == 1:
-            temp_fields = result
-            temp_fields = vars(temp_fields)
-            temp_fields['role'] = 'admin'
+            temp_fields = {
+                'id_user': result.return_id(),
+                'role':'admin'
+            }
             return temp_fields
-        return temp_fields
+        return response_object
 
 class CreateAccount(Resource):
     #create account in database

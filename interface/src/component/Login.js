@@ -1,7 +1,52 @@
-import React from 'react';
+import React, {PureComponent} from "react"
 import '../App.css';
 
-function Login() {
+class Login extends PureComponent{
+  constructor(props){
+    super(props);
+    this.state={
+      username:'',
+      password:''
+    }
+    this.handleChange=this.handleChange.bind(this);
+    this.postData=this.postData.bind(this);
+  }
+  handleChange(event) {
+    const value= event.target.value;
+    const name= event.target.name;
+    this.setState({[name]: value});
+      
+    }
+   postData(){
+    let url = '/api/account';
+    let formdata = new FormData();
+    formdata.append("email", this.state.username);
+    formdata.append("password", this.state.password);
+   
+    let options = {
+        method: 'POST',
+        body: formdata
+      };
+    fetch(url,options)
+      .then(res=>res.json())
+      .then(res=>
+      {
+        if(res.role==='admin')
+        {
+          localStorage.setItem('Auth',res.id_user);
+          window.location.href="/";
+        }
+        else {
+          alert('Login faill');
+          this.setState({username:'',password:''})
+        }
+      }
+      )
+      .catch(e=>{
+        console.log(e);
+      });   
+  }
+render(){
   return (
             <div className="container">
 
@@ -20,14 +65,21 @@ function Login() {
                   </div>
                   <form className="user">
                     <div className="form-group">
-                      <input type="email" className="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..."/>
+                      <input type="email" className="form-control form-control-user" id="exampleInputEmail" 
+                      aria-describedby="emailHelp" placeholder="Enter Email Address..."
+                      name="username"
+                      onChange={this.handleChange}/>
                     </div>
                     <div className="form-group">
-                      <input type="password" className="form-control form-control-user" id="exampleInputPassword" placeholder="Password"/>
+                      <input type="password" className="form-control form-control-user"
+                       id="exampleInputPassword" placeholder="Password"
+                       name="password"
+                       onChange={this.handleChange}/>
                     </div>
-                    <a href="index.html" className="btn btn-primary btn-user btn-block">
+                    <div  className="btn btn-primary btn-user btn-block cusorPoint"
+                    onClick={this.postData}>
                       Login
-                    </a>
+                    </div>
                     <hr/>
                   </form>
                   <hr/>
@@ -50,6 +102,7 @@ function Login() {
   </div>
 
   );
+}
 }
 
 export default Login;

@@ -34,6 +34,8 @@ class Account(db.Model):
 
     def return_id(self):
         return self.id
+    def __repr__(self):
+        return "<User '{}'>".format(self.email)
 class UserRoles(db.Model):
     __tablename__ = 'user_role'
 
@@ -43,5 +45,8 @@ class UserRoles(db.Model):
     def __init__(self, user_id, role_id):
         self.user_id = user_id,
         self.role_id = role_id
+    def __repr__(self):
+        obj = {'role_id': self.role_id}
+        return obj
     def return_role_id(self):
         return self.role_id

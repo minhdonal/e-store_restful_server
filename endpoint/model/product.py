@@ -45,4 +45,4 @@ class Product(db.Model):
     'taxable': self.taxable,
     'inserted_at': self.inserted_at
         }
-        return 
+        return product_obj

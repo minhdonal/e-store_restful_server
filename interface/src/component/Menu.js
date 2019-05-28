@@ -44,7 +44,7 @@ class Menu extends PureComponent{
         </Link>
        </li>
        <li className="nav-item">
-        <Link to={'/'} className="nav-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <Link to={'/order'} className="nav-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <span>Order</span>
         </Link>
        </li>
