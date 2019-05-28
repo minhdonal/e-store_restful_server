@@ -1,12 +1,20 @@
 from endpoint.model.cart import SaleOrder, db, OrderLine
 from flask_restful import Resource, reqparse, request
 from flask_restful import fields, marshal_with, marshal
+from flask import request, jsonify
 
 saleoder_fields = {
     'id': fields.Integer,
-    'order_date': fields.DateTime,
+    'inserted_at': fields.String,
     'total': fields.Float,
     'user_id': fields.Integer
+}
+orderline_fields = {
+    'id': fields.Integer,
+    'order_id': fields.Integer,
+    'product_id': fields.Integer,
+    'subtotal': fields.Float,
+    'inserted_at': fields.String
 }
 
 class SaleOrderResource(Resource):
@@ -35,6 +43,10 @@ class SaleOrderResource(Resource):
                 'message': 'User already exists. Please Log in.',
             }
             return response_object, 409
+    @marshal_with(saleoder_fields, envelope='data')
+    def get(self):
+        record = SaleOrder.query.all()
+        return record
 
 class OrderLineResource(Resource):
     def post(self):
@@ -61,3 +73,7 @@ class OrderLineResource(Resource):
                 'message': 'Some error occurred. Please try again.'
             }
             return response_object, 401
+    @marshal_with(orderline_fields, envelope='data')
+    def get(self):
+        record = OrderLine.query.all()
+        return record

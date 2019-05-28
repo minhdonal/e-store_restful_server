@@ -6,18 +6,16 @@ from flask import abort, jsonify
 
 product_fields = {
     'id': fields.Integer,
-    'title': fields.String,
-    'description': fields.String,
+    'categ_id': fields.Integer,
     'img_url': fields.String,
-    'regular_price': fields.Integer,
     'quantity': fields.Integer,
     'name': fields.String,
-    'img_url': fields.String,
     'description': fields.String,
-    'title': fields.String,
+    'product_status_id': fields.String,
     'regular_price': fields.Float,
     'discount_price': fields.Float,
-    'quantity': fields.Integer
+    'taxable': fields.Float,
+    'inserted_at': fields.String
 }
 
 product_parser = reqparse.RequestParser()
@@ -32,9 +30,9 @@ class ProductResource(Resource):
         return product
 
 class ProductListResource(Resource):
-    '''
+    """
     - This using for all product activity
-    '''
+    """
 
     @marshal_with(product_fields)
     def get(self):
@@ -46,27 +44,30 @@ class ProductListResource(Resource):
             name = request.form['name']
             img_url = request.form['img_url']
             description = request.form['description']
-            title = request.form['title']
+            categ_id = request.form['categ_id']
             product_status_id = request.form['status']
             regular_price = request.form['price']
             discount_price = request.form['discount']
             quantity = request.form['quantity']
-            taxable = request.form['taxable']
 
+            if product_status_id == '1':
+                product_status_id = True
+            else:
+                product_status_id = False
             new_product = Product(name, img_url, description,
-            title, product_status_id, regular_price, discount_price,
-            quantity,taxable)
+                categ_id, product_status_id, regular_price, discount_price,
+                quantity)
 
             db.session.add(new_product)
-            db.session.flush()
-            #refesh will help get a new id    
-            db.session.refresh(new_product)
+            db.session.commit()
+                #refesh will help get a new id    
+            #db.session.refresh(new_product)
             new_id = new_product.id
             response_object = {
-                'status': 'success',
-                'message': 'Successfully registered.',
-                'new_id': new_id
-                }
+                    'status': 'success',
+                    'message': 'Successfully registered.',
+                    'new_id': new_id
+                    }
             return response_object, 201
         except Exception as e:
             response_object = {

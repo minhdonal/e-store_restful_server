@@ -24,7 +24,7 @@ class AccountResource(Resource):
         record = Account.query.all()
         return record
 
-    @marshal_with(account_fields)
+    #@marshal_with(account_fields)
     def post(self):
         emails =  request.form['email']
         password =  request.form['password']
@@ -63,24 +63,22 @@ class CreateAccount(Resource):
         try:
             emails =  request.form['email']
             password =  request.form['password']
-            fisrt_name =  request.form['fisrt_name']
-            last_name =  request.form['last_name']
+            fisrt_name =  request.form['fisrtname']
+            last_name =  request.form['lastname']
             adress =  request.form['adress']
             phone = request.form['phone']
 
             new_account = Account(emails , fisrt_name, last_name, 
-                phone, password, adress)
+                    phone, password, adress)
 
             db.session.add(new_account)
-            db.session.flush()
-            #refesh will help get a new id    
-            db.session.refresh(new_order)
+            db.session.commit()
             new_id = new_account.id
             response_object = {
-                'status': 'success',
-                'message': 'Successfully registered.',
-                'new_id': new_id
-                }
+                    'status': 'success',
+                    'message': 'Successfully registered.',
+                    'new_id': new_id
+                    }
             return response_object, 201
         except Exception as e:
             response_object = {

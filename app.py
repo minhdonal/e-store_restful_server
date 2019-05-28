@@ -18,7 +18,8 @@ db.init_app(app)
 # Setup the API resource routing
 from endpoint.resource.product_resource import (
 		ProductResource, ProductListResource, RecomendProduct)
-from endpoint.resource.algorthm_resource import AlgorithmResource
+from endpoint.resource.algorthm_resource import (AlgorithmResource,
+        RecommendResource, ReadRawDataRecommend)
 from endpoint.resource.account_resource import (AccountResource,
         CreateAccount, CreateRoleUser)
 
@@ -30,13 +31,14 @@ api.add_resource(ProductListResource, '/products')
 api.add_resource(ProductResource, '/products/<int:product_id>')
 api.add_resource(RecomendProduct, '/recomend')
 api.add_resource(AlgorithmResource, '/algorthm')
-
+api.add_resource(RecommendResource, '/recomendall')
+api.add_resource(ReadRawDataRecommend, '/datarecomend')
 api.add_resource(AccountResource, '/account')
 api.add_resource(CreateAccount, '/createaccount')
 api.add_resource(CreateRoleUser, '/createroleuser')
 
-api.add_resource(SaleOrderResource, '/addneworder')
-api.add_resource(OrderLineResource, '/addneworderline')
+api.add_resource(SaleOrderResource, '/saleorder')
+api.add_resource(OrderLineResource, '/orderline')
 
 @app.route('/')
 def index():
