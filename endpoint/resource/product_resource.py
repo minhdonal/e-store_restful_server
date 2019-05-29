@@ -68,16 +68,18 @@ class RecomendProduct(Resource):
         Re = Recomend()
         list_recomend = Re.search(search_key)
         if not search_key or not list_recomend:
-            return db.session.query(Product).limit(6).all()
+            result = db.session.query(Product).limit(6).all()
+            db.session.remove()
+            return result
 
         results = db.session.query(Product).filter(
             Product.name.in_(list_recomend)).limit(6).all()
+        db.session.remove()
 
         # If don't enough 6, add more product with the same categ_id
         if not results or results and len(results) < 6:
             ext_results = db.session.query(
                 Product).limit(6 - len(results)).all()
+            db.session.remove()
             results = results + ext_results
-
-        db.session.remove()
         return results
