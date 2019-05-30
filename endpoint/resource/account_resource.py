@@ -1,7 +1,9 @@
-from endpoint.model.account import *
-from flask import abort, jsonify, request
+from endpoint.model.account import Account, UserRoles, db
+import uuid
 from flask_restful import Resource, reqparse, request
 from flask_restful import fields, marshal_with, marshal
+from flask import abort, jsonify
+from flask import request
 
 account_fields = {
     'role': fields.String,
@@ -9,7 +11,8 @@ account_fields = {
     'email': fields.String,
     'first_name': fields.String,
     'last_name': fields.String,
-    'phone': fields.Integer
+    'phone': fields.Integer,
+    'adress': fields.String
 }
 
 account_parser = reqparse.RequestParser()
@@ -21,7 +24,7 @@ class AccountResource(Resource):
         record = Account.query.all()
         return record
 
-    @marshal_with(account_fields)
+    #@marshal_with(account_fields)
     def post(self):
         emails =  request.form['email']
         password =  request.form['password']
@@ -30,49 +33,83 @@ class AccountResource(Resource):
             password_hash=password,
             active=1
         ).first()
-
+        response_object = {
+                'status': 'fail',
+                'message': 'Some error occurred. Please try again.'
+            }
         if not result:
-            abort(400, message="Account {} doesn't exist".format(emails))
+            return response_object, 401
         account_id = UserRoles.query.filter_by(user_id=result.return_id()).first()
-        user_role = account_id.return_role_id()
-
+        user_role = int(account_id.return_role_id())
         if user_role == 3:
-            temp_fields = result
-            #convert object class to dict --user var(obj) --
-            temp_fields = vars(temp_fields)
-            temp_fields['role'] = 'customer'
+            temp_fields = {
+                'id_user': result.return_id(),
+                'role':'customer'
+            }
             return temp_fields
         if user_role == 2:
-            temp_fields = result
-            temp_fields = vars(temp_fields)
-            temp_fields['role'] = 'employer'
+            temp_fields = {
+                'id_user': result.return_id(),
+                'role':'employer'
+            }
             return temp_fields
         if user_role == 1:
-            temp_fields = result
-            temp_fields = vars(temp_fields)
-            temp_fields['role'] = 'admin'
+            temp_fields = {
+                'id_user': result.return_id(),
+                'role':'admin'
+            }
             return temp_fields
-        return result
-
-    @marshal_with(account_fields)
-    def put(self, id):
-        pass
-
-    @marshal_with(account_fields)
-    def delete(self, id):
-        pass
+        return response_object
 
 class CreateAccount(Resource):
     #create account in database
     def post(self):
-        emails =  request.form['email']
-        password =  request.form['password']
-        fisrt_name =  request.form['fisrt_name']
-        last_name =  request.form['last_name']
-        adress =  request.form['adress']
-        phone = request.form['phone']
-        inst = Account(
-            emails , password, fisrt_name, 
-            last_name, adress, phone)
-        inst.add()
-        inst.commit()
+        try:
+            emails =  request.form['email']
+            password =  request.form['password']
+            fisrt_name =  request.form['fisrtname']
+            last_name =  request.form['lastname']
+            adress =  request.form['adress']
+            phone = request.form['phone']
+
+            new_account = Account(emails , fisrt_name, last_name, 
+                    phone, password, adress)
+
+            db.session.add(new_account)
+            db.session.commit()
+            new_id = new_account.id
+            response_object = {
+                    'status': 'success',
+                    'message': 'Successfully registered.',
+                    'new_id': new_id
+                    }
+            return response_object, 201
+        except Exception as e:
+            response_object = {
+                'status': 'fail',
+                'message': 'Some error occurred. Please try again.'
+            }
+            return response_object, 401
+
+class CreateRoleUser(Resource):
+    def post(self):
+        try:
+            user_id = request.form['user_id']
+            role_id = request.form['role_id']
+
+            new_user_role = UserRoles(user_id, role_id)
+                
+            db.session.add(new_user_role)
+            db.session.commit()
+                
+            response_object = {
+                'status': 'success',
+                'message': 'Successfully registered.'
+            }
+            return response_object, 201
+        except Exception as e:
+            response_object = {
+                'status': 'fail',
+                'message': 'Some error occurred. Please try again.'
+            }
+            return response_object, 401

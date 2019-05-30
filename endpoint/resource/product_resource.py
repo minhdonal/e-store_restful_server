@@ -10,11 +10,18 @@ product_fields = {
     'name': fields.String,
     'description': fields.String,
     'img_url': fields.String,
-    'regular_price': fields.Integer,
     'regular_price': fields.Float,
     'discount_price': fields.Float,
-    'quantity': fields.Integer
+    'taxable': fields.Float,
+    'inserted_at': fields.String
 }
+
+# 'categ_id': fields.Integer,
+# 'img_url': fields.String,
+# 'quantity': fields.Integer,
+# 'name': fields.String,
+# 'description': fields.String,
+# 'product_status_id': fields.String,
 
 product_parser = reqparse.RequestParser()
 # product_parser.add_argument('name')
@@ -28,22 +35,10 @@ class ProductResource(Resource):
             abort(400, message="Product {} doesn't exist".format(product_id))
         return product
 
-    @marshal_with(product_fields)
-    def post(self):
-        pass
-
-    @marshal_with(product_fields)
-    def put(self, id):
-        pass
-
-    @marshal_with(product_fields)
-    def delete(self, id):
-        pass
-
 class ProductListResource(Resource):
-    '''
+    """
     - This using for all product activity
-    '''
+    """
 
     @marshal_with(product_fields)
     def get(self):
@@ -51,10 +46,45 @@ class ProductListResource(Resource):
         products = db.session.query(Product).limit(20).all()
         db.session.remove()
         return products
-
-    @marshal_with(product_fields)
+    #insert new product
     def post(self):
-        pass
+        try:
+            name = request.form['name']
+            img_url = request.form['img_url']
+            description = request.form['description']
+            categ_id = request.form['categ_id']
+            product_status_id = request.form['status']
+            regular_price = request.form['price']
+            discount_price = request.form['discount']
+            quantity = request.form['quantity']
+
+            if product_status_id == '1':
+                product_status_id = True
+            else:
+                product_status_id = False
+            new_product = Product(name, img_url, description,
+                categ_id, product_status_id, regular_price, discount_price,
+                quantity)
+
+            db.session.add(new_product)
+            db.session.commit()
+                #refesh will help get a new id    
+            #db.session.refresh(new_product)
+            new_id = new_product.id
+            response_object = {
+                    'status': 'success',
+                    'message': 'Successfully registered.',
+                    'new_id': new_id
+                    }
+            return response_object, 201
+        except Exception as e:
+            response_object = {
+                'status': 'fail',
+                'message': 'Some error occurred. Please try again.'
+            }
+            return response_object, 401
+
+
 
 class RecomendProduct(Resource):
     """
