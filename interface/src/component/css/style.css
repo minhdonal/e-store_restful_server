@@ -1,0 +1,48 @@
+.containDB{
+	left: 225px;
+	position: absolute;
+	width: calc(100% - 225px);
+}
+.silbarfixed{
+	position: fixed !important;
+}
+.containBtn{
+  position: relative;
+  padding: 15px;
+}
+.btnBlue{
+  float: right;
+  background-color: #4e73df;
+  color: #ffffff;
+  padding: 15px;
+	border-radius: 15px;
+	cursor:pointer;
+}
+.textModel {
+	width:-webkit-fill-available;
+	border-radius: 15px;
+	border: solid 1px #cccccc;
+	padding: 5px 15px;
+	margin-bottom: 15px;
+}
+.containText {
+	padding: 15px;
+}
+.optionModel{
+	border-radius: 15px;
+	padding: 5px 15px;
+	margin-bottom: 15px;
+	margin-right: 15px;
+}
+.displayBlock {
+	display: block;
+}
+.displayNone {
+	display: none;
+}
+.containSearch{
+	padding: 15px;
+}
+.cusorPoint{
+	cursor: pointer;
+}
