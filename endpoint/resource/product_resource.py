@@ -84,8 +84,6 @@ class ProductListResource(Resource):
             }
             return response_object, 401
 
-
-
 class RecomendProduct(Resource):
     """
     this return recomend product when get url
