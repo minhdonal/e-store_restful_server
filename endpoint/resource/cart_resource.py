@@ -75,6 +75,7 @@ class OrderLineResource(Resource):
                 'message': 'Some error occurred. Please try again.'
             }
             return response_object, 401
+
     @marshal_with(orderline_fields, envelope='data')
     def get(self):
         record = OrderLine.query.all()

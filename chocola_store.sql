@@ -28,28 +28,38 @@ SET time_zone = "+00:00";
 -- Table structure for table `order_line`
 --
 
-CREATE TABLE `order_line` (
+CREATE TABLE  IF NOT EXISTS `order_line` (
   `id` int(11) NOT NULL,
   `order_id` int(11) DEFAULT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `subtotal` decimal(10,0) NOT NULL,
+   `prices_unit` decimal(10,0),
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
-
---
 -- Table structure for table `product`
 --
+Create table  IF NOT EXISTS `category` (
+    `id` int(11) NOT NULL,
+    `name` varchar(255)
+)
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE `product` (
+insert into category (`id`, `name`) values (1, 'Groceries');
+insert into category (`id`, `name`) values (2, 'Drink');
+insert into category  (`id`, `name`) values (3, 'Cosmetics');
+insert into category  (`id`, `name`) values (4, 'Candy/Pie');
+insert into category (`id`, `name`) values (5, 'Fruit');
+
+CREATE TABLE  IF NOT EXISTS `product` (
   `id` int(11) NOT NULL,
+  `categ_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `img_url` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
-  `title` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_status_id` int(11) NOT NULL,
   `regular_price` decimal(10,0) DEFAULT '0',
   `discount_price` decimal(10,0) DEFAULT '0',
@@ -57,133 +67,131 @@ CREATE TABLE `product` (
   `taxable` tinyint(1) DEFAULT '0',
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+) 
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 --
 -- Dumping data for table `product`
---
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (1,'burgers','1.jpg',' This is a burgers product made in France and sold only in our store ',1,438,140,134,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (2,'chutney','2.jpg',' This is a chutney product made in France and sold only in our store ',1,81,35,30,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (3,'turkey','3.jpg',' This is a turkey product made in France and sold only in our store ',1,63,53,121,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (4,'mineral water','4.jpg',' This is a mineral water product made in France and sold only in our store ',1,172,113,37,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (5,'low fat yogurt','5.jpg',' This is a low fat yogurt product made in France and sold only in our store ',1,279,96,109,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (6,'whole wheat pasta','6.jpg',' This is a whole wheat pasta product made in France and sold only in our store ',1,263,33,104,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (7,'soup','7.jpg',' This is a soup product made in France and sold only in our store ',1,254,190,145,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (8,'frozen vegetables','8.jpg',' This is a frozen vegetables product made in France and sold only in our store ',1,72,66,157,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (9,'french fries','9.jpg',' This is a french fries product made in France and sold only in our store ',1,281,28,188,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (10,'eggs','10.jpg',' This is a eggs product made in France and sold only in our store ',1,385,175,35,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (11,'cookies','11.jpg',' This is a cookies product made in France and sold only in our store ',1,68,10,191,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (12,'spaghetti','12.jpg',' This is a spaghetti product made in France and sold only in our store ',1,366,268,20,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (13,'shrimp','13.jpg',' This is a shrimp product made in France and sold only in our store ',1,25,13,188,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (14,'meatballs','14.jpg',' This is a meatballs product made in France and sold only in our store ',1,25,10,95,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (15,'red wine','15.jpg',' This is a red wine product made in France and sold only in our store ',1,153,73,8,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (16,'rice','16.jpg',' This is a rice product made in France and sold only in our store ',1,479,197,21,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (17,'parmesan cheese','17.jpg',' This is a parmesan cheese product made in France and sold only in our store ',1,223,36,117,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (18,'ground beef','18.jpg',' This is a ground beef product made in France and sold only in our store ',1,425,114,139,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (19,'sparkling water','19.jpg',' This is a sparkling water product made in France and sold only in our store ',1,499,167,198,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (20,'herb & pepper','20.jpg',' This is a herb & pepper product made in France and sold only in our store ',1,499,246,123,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (21,'pickles','21.jpg',' This is a pickles product made in France and sold only in our store ',1,266,19,4,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (22,'energy bar','22.jpg',' This is a energy bar product made in France and sold only in our store ',1,168,14,79,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (23,'fresh tuna','23.jpg',' This is a fresh tuna product made in France and sold only in our store ',1,436,44,114,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (24,'escalope','24.jpg',' This is a escalope product made in France and sold only in our store ',1,463,383,85,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (25,'avocado','25.jpg',' This is a avocado product made in France and sold only in our store ',1,42,11,104,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (26,'tomato sauce','26.jpg',' This is a tomato sauce product made in France and sold only in our store ',1,96,81,54,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (27,'clothes accessories','27.jpg',' This is a clothes accessories product made in France and sold only in our store ',1,139,104,20,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (28,'energy drink','28.jpg',' This is a energy drink product made in France and sold only in our store ',1,103,95,77,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (29,'chocolate','29.jpg',' This is a chocolate product made in France and sold only in our store ',1,133,119,56,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (30,'grated cheese','30.jpg',' This is a grated cheese product made in France and sold only in our store ',1,234,135,17,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (31,'yogurt cake','31.jpg',' This is a yogurt cake product made in France and sold only in our store ',1,78,28,137,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (32,'mint','32.jpg',' This is a mint product made in France and sold only in our store ',1,43,35,57,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (33,'asparagus','33.jpg',' This is a asparagus product made in France and sold only in our store ',1,63,29,86,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (34,'champagne','34.jpg',' This is a champagne product made in France and sold only in our store ',1,183,117,137,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (35,'ham','35.jpg',' This is a ham product made in France and sold only in our store ',1,137,39,180,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (36,'muffins','36.jpg',' This is a muffins product made in France and sold only in our store ',1,95,33,73,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (37,'french wine','37.jpg',' This is a french wine product made in France and sold only in our store ',1,428,185,153,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (38,'chicken','38.jpg',' This is a chicken product made in France and sold only in our store ',1,276,208,139,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (39,'pasta','39.jpg',' This is a pasta product made in France and sold only in our store ',1,104,97,64,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (40,'tomatoes','40.jpg',' This is a tomatoes product made in France and sold only in our store ',1,277,258,122,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (41,'pancakes','41.jpg',' This is a pancakes product made in France and sold only in our store ',1,398,141,119,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (42,'frozen smoothie','42.jpg',' This is a frozen smoothie product made in France and sold only in our store ',1,64,18,154,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (43,'carrots','43.jpg',' This is a carrots product made in France and sold only in our store ',1,379,85,118,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (44,'yams','44.jpg',' This is a yams product made in France and sold only in our store ',1,65,39,92,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (45,'shallot','45.jpg',' This is a shallot product made in France and sold only in our store ',1,312,298,164,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (46,'butter','46.jpg',' This is a butter product made in France and sold only in our store ',1,178,134,47,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (47,'light mayo','47.jpg',' This is a light mayo product made in France and sold only in our store ',1,29,13,196,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (48,'pepper','48.jpg',' This is a pepper product made in France and sold only in our store ',1,297,31,64,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (49,'candy bars','49.jpg',' This is a candy bars product made in France and sold only in our store ',1,36,26,28,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (50,'cooking oil','50.jpg',' This is a cooking oil product made in France and sold only in our store ',1,170,134,156,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (51,'milk','51.jpg',' This is a milk product made in France and sold only in our store ',1,187,158,184,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (52,'green tea','52.jpg',' This is a green tea product made in France and sold only in our store ',1,287,97,13,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (53,'bug spray','53.jpg',' This is a bug spray product made in France and sold only in our store ',1,43,22,116,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (54,'oil','54.jpg',' This is a oil product made in France and sold only in our store ',1,78,46,191,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (55,'olive oil','55.jpg',' This is a olive oil product made in France and sold only in our store ',1,122,60,79,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (56,'salmon','56.jpg',' This is a salmon product made in France and sold only in our store ',1,148,62,125,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (57,'cake','57.jpg',' This is a cake product made in France and sold only in our store ',1,459,330,73,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (58,'almonds','58.jpg',' This is a almonds product made in France and sold only in our store ',1,494,440,77,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (59,'salt','59.jpg',' This is a salt product made in France and sold only in our store ',1,393,130,54,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (60,'strong cheese','60.jpg',' This is a strong cheese product made in France and sold only in our store ',1,466,244,155,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (61,'hot dogs','61.jpg',' This is a hot dogs product made in France and sold only in our store ',1,383,96,197,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (62,'pet food','62.jpg',' This is a pet food product made in France and sold only in our store ',1,303,61,52,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (63,'whole wheat rice','63.jpg',' This is a whole wheat rice product made in France and sold only in our store ',1,366,188,107,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (64,'antioxydant juice','64.jpg',' This is a antioxydant juice product made in France and sold only in our store ',1,166,97,4,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (65,'honey','65.jpg',' This is a honey product made in France and sold only in our store ',1,445,205,81,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (66,'sandwich','66.jpg',' This is a sandwich product made in France and sold only in our store ',1,23,8,107,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (67,'salad','67.jpg',' This is a salad product made in France and sold only in our store ',1,400,205,70,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (68,'magazines','68.jpg',' This is a magazines product made in France and sold only in our store ',1,303,293,39,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (69,'protein bar','69.jpg',' This is a protein bar product made in France and sold only in our store ',1,270,125,100,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (70,'mayonnaise','70.jpg',' This is a mayonnaise product made in France and sold only in our store ',1,284,249,148,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (71,'cider','71.jpg',' This is a cider product made in France and sold only in our store ',1,12,7,130,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (72,'burger sauce','72.jpg',' This is a burger sauce product made in France and sold only in our store ',1,95,85,136,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (73,'green grapes','73.jpg',' This is a green grapes product made in France and sold only in our store ',1,489,196,56,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (74,'vegetables mix','74.jpg',' This is a vegetables mix product made in France and sold only in our store ',1,189,161,179,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (75,'bramble','75.jpg',' This is a bramble product made in France and sold only in our store ',1,408,267,75,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (76,'nonfat milk','76.jpg',' This is a nonfat milk product made in France and sold only in our store ',1,474,353,8,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (77,'tomato juice','77.jpg',' This is a tomato juice product made in France and sold only in our store ',1,118,75,23,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (78,'green beans','78.jpg',' This is a green beans product made in France and sold only in our store ',1,147,45,21,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (79,'strawberries','79.jpg',' This is a strawberries product made in France and sold only in our store ',1,232,226,159,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (80,'eggplant','80.jpg',' This is a eggplant product made in France and sold only in our store ',1,241,17,32,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (81,'mushroom cream sauce','81.jpg',' This is a mushroom cream sauce product made in France and sold only in our store ',1,460,378,151,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (82,'gums','82.jpg',' This is a gums product made in France and sold only in our store ',1,194,133,78,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (83,'cereals','83.jpg',' This is a cereals product made in France and sold only in our store ',1,381,85,97,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (84,'flax seed','84.jpg',' This is a flax seed product made in France and sold only in our store ',1,176,106,25,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (85,'spinach','85.jpg',' This is a spinach product made in France and sold only in our store ',1,28,6,32,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (86,'soda','86.jpg',' This is a soda product made in France and sold only in our store ',1,111,92,34,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (87,'dessert wine','87.jpg',' This is a dessert wine product made in France and sold only in our store ',1,336,19,44,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (88,'corn','88.jpg',' This is a corn product made in France and sold only in our store ',1,140,94,55,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (89,'fresh bread','89.jpg',' This is a fresh bread product made in France and sold only in our store ',1,465,149,191,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (90,'brownies','90.jpg',' This is a brownies product made in France and sold only in our store ',1,21,9,147,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (91,'fromage blanc','91.jpg',' This is a fromage blanc product made in France and sold only in our store ',1,223,147,182,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (92,'chocolate bread','92.jpg',' This is a chocolate bread product made in France and sold only in our store ',1,204,109,172,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (93,'mashed potato','93.jpg',' This is a mashed potato product made in France and sold only in our store ',1,493,390,53,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (94,'gluten free bar','94.jpg',' This is a gluten free bar product made in France and sold only in our store ',1,411,112,97,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (95,'cottage cheese','95.jpg',' This is a cottage cheese product made in France and sold only in our store ',1,250,18,186,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (96,'whole weat flour','96.jpg',' This is a whole weat flour product made in France and sold only in our store ',1,426,32,67,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (97,'chili','97.jpg',' This is a chili product made in France and sold only in our store ',1,393,155,29,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (98,'barbecue sauce','98.jpg',' This is a barbecue sauce product made in France and sold only in our store ',1,148,98,95,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (99,'light cream','99.jpg',' This is a light cream product made in France and sold only in our store ',1,176,31,11,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (100,'mint green tea','100.jpg',' This is a mint green tea product made in France and sold only in our store ',1,351,148,1,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (101,'black tea','101.jpg',' This is a black tea product made in France and sold only in our store ',1,327,231,24,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (102,'bacon','102.jpg',' This is a bacon product made in France and sold only in our store ',1,370,271,133,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (103,'shampoo','103.jpg',' This is a shampoo product made in France and sold only in our store ',1,309,265,197,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (104,'blueberries','104.jpg',' This is a blueberries product made in France and sold only in our store ',1,331,196,67,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (105,'cauliflower','105.jpg',' This is a cauliflower product made in France and sold only in our store ',1,55,45,131,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (106,'extra dark chocolate','106.jpg',' This is a extra dark chocolate product made in France and sold only in our store ',1,130,23,132,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (107,'white wine','107.jpg',' This is a white wine product made in France and sold only in our store ',1,382,267,170,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (108,'babies food','108.jpg',' This is a babies food product made in France and sold only in our store ',1,64,52,103,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (109,'toothpaste','109.jpg',' This is a toothpaste product made in France and sold only in our store ',1,224,187,51,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (110,'melons','110.jpg',' This is a melons product made in France and sold only in our store ',1,11,6,131,3,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (111,'ketchup','111.jpg',' This is a ketchup product made in France and sold only in our store ',1,289,136,133,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (112,'cream','112.jpg',' This is a cream product made in France and sold only in our store ',1,115,108,6,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (113,'hand protein bar','113.jpg',' This is a hand protein bar product made in France and sold only in our store ',1,290,250,32,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (114,'body spray','114.jpg',' This is a body spray product made in France and sold only in our store ',1,319,71,82,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (115,'oatmeal','115.jpg',' This is a oatmeal product made in France and sold only in our store ',1,393,252,78,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (116,'zucchini','116.jpg',' This is a zucchini product made in France and sold only in our store ',1,40,17,153,1,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (117,'water spray','117.jpg',' This is a water spray product made in France and sold only in our store ',1,306,114,17,5,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (118,'tea','118.jpg',' This is a tea product made in France and sold only in our store ',1,118,83,21,4,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (119,'napkins','119.jpg',' This is a napkins product made in France and sold only in our store ',1,124,114,90,2,0.1);
+insert into product (`id`,`name`, `img_url`, `description`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `categ_id`,`taxable`) values (120,' asparagus','120.jpg',' This is a  asparagus product made in France and sold only in our store ',1,192,107,129,2,0.1);
 
-INSERT INTO `product` (`id`, `name`, `img_url`, `description`, `title`, `product_status_id`, `regular_price`, `discount_price`, `quantity`, `taxable`, `inserted_at`, `updated_at`) VALUES
-(1, 'burgers', '1.jpg', ' This is a burgers product made in France and sold only in our store', ' This is a This is a burgers product made in France and sold only in our store ', 1, '459', '8', 96, 0, '2019-05-01 15:37:47', '0000-00-00 00:00:00'),
-(2, 'chutney', '2.jpg', ' This is a chutney product made in France and sold only in our store', ' This is a This is a chutney product made in France and sold only in our store ', 1, '182', '10', 39, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(3, 'turkey', '3.jpg', ' This is a turkey product made in France and sold only in our store', ' This is a This is a turkey product made in France and sold only in our store ', 1, '345', '124', 79, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(4, 'mineral water', '4.jpg', ' This is a mineral water product made in France and sold only in our store', ' This is a This is a mineral water product made in France and sold only in our store ', 1, '127', '24', 198, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(5, 'low fat yogurt', '5.jpg', ' This is a low fat yogurt product made in France and sold only in our store', ' This is a This is a low fat yogurt product made in France and sold only in our store ', 1, '155', '6', 138, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(6, 'whole wheat pasta', '6.jpg', ' This is a whole wheat pasta product made in France and sold only in our store', ' This is a This is a whole wheat pasta product made in France and sold only in our store ', 1, '213', '159', 44, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(7, 'soup', '7.jpg', ' This is a soup product made in France and sold only in our store', ' This is a This is a soup product made in France and sold only in our store ', 1, '402', '78', 28, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(8, 'frozen vegetables', '8.jpg', ' This is a frozen vegetables product made in France and sold only in our store', ' This is a This is a frozen vegetables product made in France and sold only in our store ', 1, '180', '142', 188, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(9, 'french fries', '9.jpg', ' This is a french fries product made in France and sold only in our store', ' This is a This is a french fries product made in France and sold only in our store ', 1, '332', '320', 27, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(10, 'eggs', '10.jpg', ' This is a eggs product made in France and sold only in our store', ' This is a This is a eggs product made in France and sold only in our store ', 1, '480', '56', 28, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(11, 'cookies', '11.jpg', ' This is a cookies product made in France and sold only in our store', ' This is a This is a cookies product made in France and sold only in our store ', 1, '369', '80', 5, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(12, 'spaghetti', '12.jpg', ' This is a spaghetti product made in France and sold only in our store', ' This is a This is a spaghetti product made in France and sold only in our store ', 1, '490', '353', 51, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(13, 'shrimp', '13.jpg', ' This is a shrimp product made in France and sold only in our store', ' This is a This is a shrimp product made in France and sold only in our store ', 1, '139', '19', 68, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(14, 'meatballs', '14.jpg', ' This is a meatballs product made in France and sold only in our store', ' This is a This is a meatballs product made in France and sold only in our store ', 1, '465', '416', 79, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(15, 'red wine', '15.jpg', ' This is a red wine product made in France and sold only in our store', ' This is a This is a red wine product made in France and sold only in our store ', 1, '102', '57', 79, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(16, 'rice', '16.jpg', ' This is a rice product made in France and sold only in our store', ' This is a This is a rice product made in France and sold only in our store ', 1, '297', '219', 198, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(17, 'parmesan cheese', '17.jpg', ' This is a parmesan cheese product made in France and sold only in our store', ' This is a This is a parmesan cheese product made in France and sold only in our store ', 1, '254', '230', 168, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(18, 'ground beef', '18.jpg', ' This is a ground beef product made in France and sold only in our store', ' This is a This is a ground beef product made in France and sold only in our store ', 1, '242', '75', 54, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(19, 'sparkling water', '19.jpg', ' This is a sparkling water product made in France and sold only in our store', ' This is a This is a sparkling water product made in France and sold only in our store ', 1, '128', '53', 66, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(20, 'herb & pepper', '20.jpg', ' This is a herb & pepper product made in France and sold only in our store', ' This is a This is a herb & pepper product made in France and sold only in our store ', 1, '121', '67', 130, 0, '2019-05-01 15:38:09', '0000-00-00 00:00:00'),
-(21, 'pickles', '21.jpg', ' This is a pickles product made in France and sold only in our store', ' This is a This is a pickles product made in France and sold only in our store ', 1, '147', '33', 174, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(22, 'energy bar', '22.jpg', ' This is a energy bar product made in France and sold only in our store', ' This is a This is a energy bar product made in France and sold only in our store ', 1, '440', '52', 76, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(23, 'fresh tuna', '23.jpg', ' This is a fresh tuna product made in France and sold only in our store', ' This is a This is a fresh tuna product made in France and sold only in our store ', 1, '216', '79', 135, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(24, 'escalope', '24.jpg', ' This is a escalope product made in France and sold only in our store', ' This is a This is a escalope product made in France and sold only in our store ', 1, '268', '213', 133, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(25, 'avocado', '25.jpg', ' This is a avocado product made in France and sold only in our store', ' This is a This is a avocado product made in France and sold only in our store ', 1, '457', '70', 200, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(26, 'tomato sauce', '26.jpg', ' This is a tomato sauce product made in France and sold only in our store', ' This is a This is a tomato sauce product made in France and sold only in our store ', 1, '296', '206', 145, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(27, 'clothes accessories', '27.jpg', ' This is a clothes accessories product made in France and sold only in our store', ' This is a This is a clothes accessories product made in France and sold only in our store ', 1, '147', '70', 30, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(28, 'energy drink', '28.jpg', ' This is a energy drink product made in France and sold only in our store', ' This is a This is a energy drink product made in France and sold only in our store ', 1, '270', '133', 95, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(29, 'chocolate', '29.jpg', ' This is a chocolate product made in France and sold only in our store', ' This is a This is a chocolate product made in France and sold only in our store ', 1, '282', '172', 89, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(30, 'grated cheese', '30.jpg', ' This is a grated cheese product made in France and sold only in our store', ' This is a This is a grated cheese product made in France and sold only in our store ', 1, '261', '164', 81, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(31, 'yogurt cake', '31.jpg', ' This is a yogurt cake product made in France and sold only in our store', ' This is a This is a yogurt cake product made in France and sold only in our store ', 1, '432', '420', 61, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(32, 'mint', '32.jpg', ' This is a mint product made in France and sold only in our store', ' This is a This is a mint product made in France and sold only in our store ', 1, '194', '34', 68, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(33, 'asparagus', '33.jpg', ' This is a asparagus product made in France and sold only in our store', ' This is a This is a asparagus product made in France and sold only in our store ', 1, '296', '257', 135, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(34, 'champagne', '34.jpg', ' This is a champagne product made in France and sold only in our store', ' This is a This is a champagne product made in France and sold only in our store ', 1, '81', '27', 53, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(35, 'ham', '35.jpg', ' This is a ham product made in France and sold only in our store', ' This is a This is a ham product made in France and sold only in our store ', 1, '249', '227', 130, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(36, 'muffins', '36.jpg', ' This is a muffins product made in France and sold only in our store', ' This is a This is a muffins product made in France and sold only in our store ', 1, '161', '141', 162, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(37, 'french wine', '37.jpg', ' This is a french wine product made in France and sold only in our store', ' This is a This is a french wine product made in France and sold only in our store ', 1, '201', '21', 149, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(38, 'chicken', '38.jpg', ' This is a chicken product made in France and sold only in our store', ' This is a This is a chicken product made in France and sold only in our store ', 1, '334', '37', 68, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(39, 'pasta', '39.jpg', ' This is a pasta product made in France and sold only in our store', ' This is a This is a pasta product made in France and sold only in our store ', 1, '74', '25', 154, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(40, 'tomatoes', '40.jpg', ' This is a tomatoes product made in France and sold only in our store', ' This is a This is a tomatoes product made in France and sold only in our store ', 1, '206', '123', 2, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(41, 'pancakes', '41.jpg', ' This is a pancakes product made in France and sold only in our store', ' This is a This is a pancakes product made in France and sold only in our store ', 1, '481', '162', 67, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(42, 'frozen smoothie', '42.jpg', ' This is a frozen smoothie product made in France and sold only in our store', ' This is a This is a frozen smoothie product made in France and sold only in our store ', 1, '91', '61', 45, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(43, 'carrots', '43.jpg', ' This is a carrots product made in France and sold only in our store', ' This is a This is a carrots product made in France and sold only in our store ', 1, '474', '40', 102, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(44, 'yams', '44.jpg', ' This is a yams product made in France and sold only in our store', ' This is a This is a yams product made in France and sold only in our store ', 1, '247', '134', 130, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(45, 'shallot', '45.jpg', ' This is a shallot product made in France and sold only in our store', ' This is a This is a shallot product made in France and sold only in our store ', 1, '53', '9', 194, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(46, 'butter', '46.jpg', ' This is a butter product made in France and sold only in our store', ' This is a This is a butter product made in France and sold only in our store ', 1, '232', '58', 105, 0, '2019-05-01 15:38:10', '0000-00-00 00:00:00'),
-(47, 'light mayo', '47.jpg', ' This is a light mayo product made in France and sold only in our store', ' This is a This is a light mayo product made in France and sold only in our store ', 1, '17', '8', 41, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(48, 'pepper', '48.jpg', ' This is a pepper product made in France and sold only in our store', ' This is a This is a pepper product made in France and sold only in our store ', 1, '149', '77', 165, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(49, 'candy bars', '49.jpg', ' This is a candy bars product made in France and sold only in our store', ' This is a This is a candy bars product made in France and sold only in our store ', 1, '362', '265', 173, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(50, 'cooking oil', '50.jpg', ' This is a cooking oil product made in France and sold only in our store', ' This is a This is a cooking oil product made in France and sold only in our store ', 1, '190', '110', 171, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(51, 'milk', '51.jpg', ' This is a milk product made in France and sold only in our store', ' This is a This is a milk product made in France and sold only in our store ', 1, '214', '25', 14, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(52, 'green tea', '52.jpg', ' This is a green tea product made in France and sold only in our store', ' This is a This is a green tea product made in France and sold only in our store ', 1, '204', '88', 113, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(53, 'bug spray', '53.jpg', ' This is a bug spray product made in France and sold only in our store', ' This is a This is a bug spray product made in France and sold only in our store ', 1, '14', '8', 159, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(54, 'oil', '54.jpg', ' This is a oil product made in France and sold only in our store', ' This is a This is a oil product made in France and sold only in our store ', 1, '193', '35', 152, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(55, 'olive oil', '55.jpg', ' This is a olive oil product made in France and sold only in our store', ' This is a This is a olive oil product made in France and sold only in our store ', 1, '59', '51', 154, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(56, 'salmon', '56.jpg', ' This is a salmon product made in France and sold only in our store', ' This is a This is a salmon product made in France and sold only in our store ', 1, '476', '78', 53, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(57, 'cake', '57.jpg', ' This is a cake product made in France and sold only in our store', ' This is a This is a cake product made in France and sold only in our store ', 1, '91', '65', 148, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(58, 'almonds', '58.jpg', ' This is a almonds product made in France and sold only in our store', ' This is a This is a almonds product made in France and sold only in our store ', 1, '106', '46', 51, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(59, 'salt', '59.jpg', ' This is a salt product made in France and sold only in our store', ' This is a This is a salt product made in France and sold only in our store ', 1, '298', '18', 186, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(60, 'strong cheese', '60.jpg', ' This is a strong cheese product made in France and sold only in our store', ' This is a This is a strong cheese product made in France and sold only in our store ', 1, '126', '97', 193, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(61, 'hot dogs', '61.jpg', ' This is a hot dogs product made in France and sold only in our store', ' This is a This is a hot dogs product made in France and sold only in our store ', 1, '284', '30', 185, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(62, 'pet food', '62.jpg', ' This is a pet food product made in France and sold only in our store', ' This is a This is a pet food product made in France and sold only in our store ', 1, '328', '40', 83, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(63, 'whole wheat rice', '63.jpg', ' This is a whole wheat rice product made in France and sold only in our store', ' This is a This is a whole wheat rice product made in France and sold only in our store ', 1, '278', '221', 36, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(64, 'antioxydant juice', '64.jpg', ' This is a antioxydant juice product made in France and sold only in our store', ' This is a This is a antioxydant juice product made in France and sold only in our store ', 1, '142', '105', 190, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(65, 'honey', '65.jpg', ' This is a honey product made in France and sold only in our store', ' This is a This is a honey product made in France and sold only in our store ', 1, '337', '149', 142, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(66, 'sandwich', '66.jpg', ' This is a sandwich product made in France and sold only in our store', ' This is a This is a sandwich product made in France and sold only in our store ', 1, '186', '26', 168, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(67, 'salad', '67.jpg', ' This is a salad product made in France and sold only in our store', ' This is a This is a salad product made in France and sold only in our store ', 1, '238', '174', 95, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(68, 'magazines', '68.jpg', ' This is a magazines product made in France and sold only in our store', ' This is a This is a magazines product made in France and sold only in our store ', 1, '27', '7', 53, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(69, 'protein bar', '69.jpg', ' This is a protein bar product made in France and sold only in our store', ' This is a This is a protein bar product made in France and sold only in our store ', 1, '351', '94', 171, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(70, 'mayonnaise', '70.jpg', ' This is a mayonnaise product made in France and sold only in our store', ' This is a This is a mayonnaise product made in France and sold only in our store ', 1, '462', '236', 199, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(71, 'cider', '71.jpg', ' This is a cider product made in France and sold only in our store', ' This is a This is a cider product made in France and sold only in our store ', 1, '137', '108', 129, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(72, 'burger sauce', '72.jpg', ' This is a burger sauce product made in France and sold only in our store', ' This is a This is a burger sauce product made in France and sold only in our store ', 1, '315', '166', 62, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(73, 'green grapes', '73.jpg', ' This is a green grapes product made in France and sold only in our store', ' This is a This is a green grapes product made in France and sold only in our store ', 1, '340', '277', 141, 0, '2019-05-01 15:38:11', '0000-00-00 00:00:00'),
-(74, 'vegetables mix', '74.jpg', ' This is a vegetables mix product made in France and sold only in our store', ' This is a This is a vegetables mix product made in France and sold only in our store ', 1, '421', '325', 143, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(75, 'bramble', '75.jpg', ' This is a bramble product made in France and sold only in our store', ' This is a This is a bramble product made in France and sold only in our store ', 1, '119', '37', 197, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(76, 'nonfat milk', '76.jpg', ' This is a nonfat milk product made in France and sold only in our store', ' This is a This is a nonfat milk product made in France and sold only in our store ', 1, '356', '46', 94, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(77, 'tomato juice', '77.jpg', ' This is a tomato juice product made in France and sold only in our store', ' This is a This is a tomato juice product made in France and sold only in our store ', 1, '349', '319', 87, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(78, 'green beans', '78.jpg', ' This is a green beans product made in France and sold only in our store', ' This is a This is a green beans product made in France and sold only in our store ', 1, '38', '24', 5, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(79, 'strawberries', '79.jpg', ' This is a strawberries product made in France and sold only in our store', ' This is a This is a strawberries product made in France and sold only in our store ', 1, '499', '8', 37, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(80, 'eggplant', '80.jpg', ' This is a eggplant product made in France and sold only in our store', ' This is a This is a eggplant product made in France and sold only in our store ', 1, '463', '333', 114, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(81, 'mushroom cream sauce', '81.jpg', ' This is a mushroom cream sauce product made in France and sold only in our store', ' This is a This is a mushroom cream sauce product made in France and sold only in our store ', 1, '129', '11', 74, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(82, 'gums', '82.jpg', ' This is a gums product made in France and sold only in our store', ' This is a This is a gums product made in France and sold only in our store ', 1, '448', '59', 53, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(83, 'cereals', '83.jpg', ' This is a cereals product made in France and sold only in our store', ' This is a This is a cereals product made in France and sold only in our store ', 1, '152', '46', 32, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(84, 'flax seed', '84.jpg', ' This is a flax seed product made in France and sold only in our store', ' This is a This is a flax seed product made in France and sold only in our store ', 1, '44', '32', 87, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(85, 'spinach', '85.jpg', ' This is a spinach product made in France and sold only in our store', ' This is a This is a spinach product made in France and sold only in our store ', 1, '150', '136', 103, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(86, 'soda', '86.jpg', ' This is a soda product made in France and sold only in our store', ' This is a This is a soda product made in France and sold only in our store ', 1, '406', '72', 15, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(87, 'dessert wine', '87.jpg', ' This is a dessert wine product made in France and sold only in our store', ' This is a This is a dessert wine product made in France and sold only in our store ', 1, '472', '33', 73, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(88, 'corn', '88.jpg', ' This is a corn product made in France and sold only in our store', ' This is a This is a corn product made in France and sold only in our store ', 1, '213', '31', 59, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(89, 'fresh bread', '89.jpg', ' This is a fresh bread product made in France and sold only in our store', ' This is a This is a fresh bread product made in France and sold only in our store ', 1, '67', '9', 17, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(90, 'brownies', '90.jpg', ' This is a brownies product made in France and sold only in our store', ' This is a This is a brownies product made in France and sold only in our store ', 1, '158', '88', 8, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(91, 'fromage blanc', '91.jpg', ' This is a fromage blanc product made in France and sold only in our store', ' This is a This is a fromage blanc product made in France and sold only in our store ', 1, '183', '102', 129, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(92, 'chocolate bread', '92.jpg', ' This is a chocolate bread product made in France and sold only in our store', ' This is a This is a chocolate bread product made in France and sold only in our store ', 1, '205', '51', 110, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(93, 'mashed potato', '93.jpg', ' This is a mashed potato product made in France and sold only in our store', ' This is a This is a mashed potato product made in France and sold only in our store ', 1, '435', '424', 182, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(94, 'gluten free bar', '94.jpg', ' This is a gluten free bar product made in France and sold only in our store', ' This is a This is a gluten free bar product made in France and sold only in our store ', 1, '433', '399', 73, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(95, 'cottage cheese', '95.jpg', ' This is a cottage cheese product made in France and sold only in our store', ' This is a This is a cottage cheese product made in France and sold only in our store ', 1, '179', '114', 160, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(96, 'whole weat flour', '96.jpg', ' This is a whole weat flour product made in France and sold only in our store', ' This is a This is a whole weat flour product made in France and sold only in our store ', 1, '80', '39', 126, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(97, 'chili', '97.jpg', ' This is a chili product made in France and sold only in our store', ' This is a This is a chili product made in France and sold only in our store ', 1, '346', '23', 33, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(98, 'barbecue sauce', '98.jpg', ' This is a barbecue sauce product made in France and sold only in our store', ' This is a This is a barbecue sauce product made in France and sold only in our store ', 1, '454', '134', 86, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(99, 'light cream', '99.jpg', ' This is a light cream product made in France and sold only in our store', ' This is a This is a light cream product made in France and sold only in our store ', 1, '314', '169', 86, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(100, 'mint green tea', '100.jpg', ' This is a mint green tea product made in France and sold only in our store', ' This is a This is a mint green tea product made in France and sold only in our store ', 1, '449', '7', 20, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(101, 'black tea', '101.jpg', ' This is a black tea product made in France and sold only in our store', ' This is a This is a black tea product made in France and sold only in our store ', 1, '382', '142', 5, 0, '2019-05-01 15:38:12', '0000-00-00 00:00:00'),
-(102, 'bacon', '102.jpg', ' This is a bacon product made in France and sold only in our store', ' This is a This is a bacon product made in France and sold only in our store ', 1, '13', '6', 3, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(103, 'shampoo', '103.jpg', ' This is a shampoo product made in France and sold only in our store', ' This is a This is a shampoo product made in France and sold only in our store ', 1, '417', '49', 60, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(104, 'blueberries', '104.jpg', ' This is a blueberries product made in France and sold only in our store', ' This is a This is a blueberries product made in France and sold only in our store ', 1, '374', '38', 143, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(105, 'cauliflower', '105.jpg', ' This is a cauliflower product made in France and sold only in our store', ' This is a This is a cauliflower product made in France and sold only in our store ', 1, '480', '207', 184, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(106, 'extra dark chocolate', '106.jpg', ' This is a extra dark chocolate product made in France and sold only in our store', ' This is a This is a extra dark chocolate product made in France and sold only in our store ', 1, '207', '36', 40, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(107, 'white wine', '107.jpg', ' This is a white wine product made in France and sold only in our store', ' This is a This is a white wine product made in France and sold only in our store ', 1, '141', '127', 79, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(108, 'babies food', '108.jpg', ' This is a babies food product made in France and sold only in our store', ' This is a This is a babies food product made in France and sold only in our store ', 1, '237', '219', 177, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(109, 'toothpaste', '109.jpg', ' This is a toothpaste product made in France and sold only in our store', ' This is a This is a toothpaste product made in France and sold only in our store ', 1, '214', '98', 1, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(110, 'melons', '110.jpg', ' This is a melons product made in France and sold only in our store', ' This is a This is a melons product made in France and sold only in our store ', 1, '316', '186', 156, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(111, 'ketchup', '111.jpg', ' This is a ketchup product made in France and sold only in our store', ' This is a This is a ketchup product made in France and sold only in our store ', 1, '249', '228', 51, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(112, 'cream', '112.jpg', ' This is a cream product made in France and sold only in our store', ' This is a This is a cream product made in France and sold only in our store ', 1, '412', '374', 50, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(113, 'hand protein bar', '113.jpg', ' This is a hand protein bar product made in France and sold only in our store', ' This is a This is a hand protein bar product made in France and sold only in our store ', 1, '120', '45', 32, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(114, 'body spray', '114.jpg', ' This is a body spray product made in France and sold only in our store', ' This is a This is a body spray product made in France and sold only in our store ', 1, '36', '15', 98, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(115, 'oatmeal', '115.jpg', ' This is a oatmeal product made in France and sold only in our store', ' This is a This is a oatmeal product made in France and sold only in our store ', 1, '77', '66', 124, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(116, 'zucchini', '116.jpg', ' This is a zucchini product made in France and sold only in our store', ' This is a This is a zucchini product made in France and sold only in our store ', 1, '61', '10', 109, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(117, 'water spray', '117.jpg', ' This is a water spray product made in France and sold only in our store', ' This is a This is a water spray product made in France and sold only in our store ', 1, '213', '152', 189, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(118, 'tea', '118.jpg', ' This is a tea product made in France and sold only in our store', ' This is a This is a tea product made in France and sold only in our store ', 1, '50', '14', 142, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(119, 'napkins', '119.jpg', ' This is a napkins product made in France and sold only in our store', ' This is a This is a napkins product made in France and sold only in our store ', 1, '60', '40', 133, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00'),
-(120, ' asparagus', '120.jpg', ' This is a  asparagus product made in France and sold only in our store', ' This is a This is a  asparagus product made in France and sold only in our store ', 1, '332', '159', 90, 0, '2019-05-01 15:38:13', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -347,6 +355,7 @@ INSERT INTO `product_tag` (`product_id`, `tag_id`, `inserted_at`, `updated_at`) 
 
 -- --------------------------------------------------------
 
+
 --
 -- Table structure for table `roles`
 --
@@ -458,6 +467,7 @@ INSERT INTO `user_role` (`user_id`, `role_id`, `inserted_at`, `updated_at`) VALU
 --
 -- Indexes for table `order_line`
 --
+ALTER TABLE `category` ADD PRIMARY KEY (`id`);
 ALTER TABLE `order_line`
   ADD PRIMARY KEY (`id`),
   ADD KEY `order_id` (`order_id`),
@@ -466,11 +476,11 @@ ALTER TABLE `order_line`
 --
 -- Indexes for table `product`
 --
-ALTER TABLE `product`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `product_status_id` (`product_status_id`);
+ALTER TABLE `product` ADD PRIMARY KEY (`id`),
+  ADD KEY `product_status_id` (`product_status_id`),
+  ADD KEY categ_id (categ_id);
 
---
+select * from product;
 -- Indexes for table `product_statuses`
 --
 ALTER TABLE `product_statuses`
@@ -578,6 +588,9 @@ ALTER TABLE `order_line`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`product_status_id`) REFERENCES `product_statuses` (`id`);
+  
+ALTER TABLE `product`
+  ADD CONSTRAINT `product_categ_1` FOREIGN KEY (`categ_id`) REFERENCES `category` (`id`);
 
 --
 -- Constraints for table `product_tag`
