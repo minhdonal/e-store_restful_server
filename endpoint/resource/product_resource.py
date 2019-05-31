@@ -4,7 +4,6 @@ from flask import abort, jsonify
 from flask_restful import Resource, reqparse, request
 from flask_restful import fields, marshal_with, marshal
 
-
 product_fields = {
     'id': fields.Integer,
     'name': fields.String,
@@ -13,18 +12,13 @@ product_fields = {
     'regular_price': fields.Float,
     'discount_price': fields.Float,
     'taxable': fields.Float,
-    'inserted_at': fields.String
+    'categ_id': fields.Integer,
+    'product_status_id': fields.String,
+    'quantity': fields.Integer
 }
 
-# 'categ_id': fields.Integer,
-# 'img_url': fields.String,
-# 'quantity': fields.Integer,
-# 'name': fields.String,
-# 'description': fields.String,
-# 'product_status_id': fields.String,
-
 product_parser = reqparse.RequestParser()
-# product_parser.add_argument('name')
+product_parser.add_argument('name')
 
 class ProductResource(Resource):
     @marshal_with(product_fields)
@@ -42,10 +36,14 @@ class ProductListResource(Resource):
 
     @marshal_with(product_fields)
     def get(self):
-        # products = Product.query.limit(20).all()
-        products = db.session.query(Product).limit(20).all()
+        search_categ_id = request.args.get('categ_id', type = int)
+        if search_categ_id and search_categ_id > 0:
+            products = db.session.query(Product).filter_by(categ_id=categ_id).limit(6).all()
+        else:
+            products = db.session.query(Product).limit(20).all()
         db.session.remove()
         return products
+
     #insert new product
     def post(self):
         try:

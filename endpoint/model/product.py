@@ -8,7 +8,7 @@ class Product(db.Model):
     name = db.Column(db.String(225))
     img_url = db.Column(db.String(200))
     description = db.Column(db.String(225))
-    categ_id = db.Column(db.String(200))
+    categ_id = db.Column(db.Integer)
     product_status_id = db.Column(db.Boolean)
     regular_price = db.Column(db.Float)
     discount_price = db.Column(db.Float)

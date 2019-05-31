@@ -2,6 +2,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
+import sys
+
 
 class Account(db.Model):
     __tablename__ = 'user'
@@ -12,25 +14,31 @@ class Account(db.Model):
     last_name = db.Column(db.String(200))
     phone = db.Column(db.Integer)
     active = db.Column(db.Boolean)
-    password_hash = db.Column(db.String(50))
+    password_hash = db.Column(db.String(255))
     adress = db.Column(db.String(100))
 
-    def __init__(self, email, first_name, last_name, phone, password_hash, adress):
+    def __init__(self, first_name, email, password_hash, last_name=None, phone=None,  adress=None):
         self.email = email
         self.first_name = first_name
-        self.phone = phone
-        self.adress = adress
-        self.password_hash = password_hash    
+        self.password_hash = password_hash
+        if last_name:
+            self.last_name = name
+        if phone:
+            self.phone = phone
+        if adress:
+            self.adress = adress
         self.active = True
 
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+    @staticmethod
+    def hashing_password(self, raw_password):
+        return generate_password_hash(raw_password)
 
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+    def check_password(self, raw_password):
+        return check_password_hash(self.password_hash, raw_password)
 
     def return_id(self):
         return self.id
+
     def __repr__(self):
         return "<User '{}'>".format(self.email)
 

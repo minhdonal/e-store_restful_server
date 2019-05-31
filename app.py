@@ -27,7 +27,7 @@ from endpoint.resource.product_resource import (
 from endpoint.resource.algorthm_resource import (AlgorithmResource,
         RecommendResource, ReadRawDataRecommend)
 from endpoint.resource.account_resource import (AccountResource,
-        CreateAccount, CreateRoleUser)
+        CreateAccount, CreateRoleUser, AuthenResource)
 from endpoint.resource.cart_resource import (SaleOrderResource,
         OrderLineResource)
 
@@ -35,16 +35,19 @@ api = Api(app)
 api.prefix = '/api'
 api.add_resource(ProductListResource, '/products')
 api.add_resource(ProductResource, '/products/<int:product_id>')
+	
+api.add_resource(AccountResource, '/account/<int:account_id>')
+api.add_resource(AuthenResource, '/login')
+# api.add_resource(CreateAccount, '/createaccount')
+api.add_resource(CreateRoleUser, '/create_role_user')
+
+api.add_resource(SaleOrderResource, '/sale_order')
+api.add_resource(OrderLineResource, '/order_line')
+
 api.add_resource(RecomendProduct, '/recommend')
 api.add_resource(AlgorithmResource, '/algorthm')
 api.add_resource(RecommendResource, '/recomendall')
 api.add_resource(ReadRawDataRecommend, '/datarecomend')
-api.add_resource(AccountResource, '/account')
-api.add_resource(CreateAccount, '/createaccount')
-api.add_resource(CreateRoleUser, '/createroleuser')
-
-api.add_resource(SaleOrderResource, '/saleorder')
-api.add_resource(OrderLineResource, '/orderline')
 
 if __name__ == '__main__':
-    app.run(debug=False, threaded=True)
+    app.run(debug=True, threaded=True)

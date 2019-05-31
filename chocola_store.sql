@@ -428,7 +428,7 @@ CREATE TABLE `user` (
   `active` tinyint(1) DEFAULT '1',
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `password_hash` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password_hash` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `adress` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
