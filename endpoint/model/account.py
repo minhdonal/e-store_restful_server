@@ -12,7 +12,7 @@ class Account(db.Model):
     email = db.Column(db.String(200))
     first_name = db.Column(db.String(200))
     last_name = db.Column(db.String(200))
-    phone = db.Column(db.Integer)
+    phone = db.Column(db.String(10))
     active = db.Column(db.Boolean)
     password_hash = db.Column(db.String(255))
     adress = db.Column(db.String(100))

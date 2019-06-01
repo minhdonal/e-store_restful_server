@@ -11,6 +11,7 @@ class SaleOrder(db.Model):
     total = db.Column(db.Float)
     user_id = db.Column(db.Integer)
     inserted_at = datetime.datetime.utcnow()
+
     def __init__(self, total, user_id):
         self.total = total
         self.user_id = user_id
