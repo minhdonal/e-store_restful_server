@@ -398,12 +398,13 @@ INSERT INTO `roles` (`id`, `name`, `inserted_at`, `updated_at`) VALUES
 
 CREATE TABLE `sales_order` (
   `id` int(11) NOT NULL,
-  `order_date` date NOT NULL,
+  `order_date` date DEFAULT CURRENT_TIMESTAMP,
   `total` decimal(10,0) NOT NULL,
   `user_id` int(11) NOT NULL,
   `address` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `state` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT 'draft',
+  `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

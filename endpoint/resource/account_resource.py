@@ -13,10 +13,10 @@ account_fields = {
     'first_name': fields.String,
     'last_name': fields.String,
     'phone': fields.Integer,
-    'adress': fields.String
-}
+    'adress': fields.String}
 
 account_parser = reqparse.RequestParser()
+account_parser.add_argument('id')
 account_parser.add_argument('name')
 account_parser.add_argument('email')
 account_parser.add_argument('password')
@@ -25,47 +25,13 @@ account_parser.add_argument('password2')
 class AccountResource(Resource):
     @marshal_with(account_fields)
     def get(self, account_id):
+        print('search_account_id %s' % str(account_id), file=sys.stderr)
         account = db.session.query(Account).filter_by(id=account_id).first()
+        print('search_account_id %s' % str(account), file=sys.stderr)
         db.session.remove()
         if not account:
             abort(400, message="Account {} doesn't exist".format(account_id))
         return account
-
-    def post(self):
-        # try:
-        response_object = {
-            'status': 'SUCCESS',
-            'message': 'Successfully registered.',
-            'return_id': 0}
-
-        args = account_parser.parse_args()
-        print('args %s' % str(args), file=sys.stderr)
-        email =  args['email']
-        password =  args['password']
-        password2 =  args['password2']
-        user_name =  args['name']
-
-        if not email or not password or not user_name:
-            print('not email or not password or not user_name', file=sys.stderr)
-            response_object['status'] = 'FAIL'
-            response_object['message'] = 'Some information missing!'
-            return jsonify(response_object)
-        exists_email = db.session.query(Account).filter_by(email=email).first()
-        if exists_email:
-            print('exists_email', file=sys.stderr)
-            response_object['status'] = 'FAIL'
-            response_object['message'] = 'Email is existed, please choose another email'
-            return jsonify(response_object)
-
-        hash_passowrd = Account.hashing_password(self, password)
-        new_account = Account(user_name, email, hash_passowrd)
-
-        db.session.add(new_account)
-        db.session.commit()
-        new_id = new_account.id
-        response_object['return_id'] = new_id
-        db.session.remove()
-        return jsonify(response_object)
 
     # @marshal_with(account_fields)
     # def post(self):
@@ -106,9 +72,10 @@ class AccountResource(Resource):
 
 class AuthenResource(Resource):
     @marshal_with(account_fields)
-    def get(self):
-        record = db.session.query(Account).first()
-        return record
+    def get(self, account_id):
+        account = db.session.query(Account).filter_by(id=account_id).first()
+        if account:
+            return account
 
     def post(self):
         response_object = {
@@ -131,7 +98,6 @@ class AuthenResource(Resource):
             return jsonify(response_object)
         hash_passowrd = Account.hashing_password(self, password)
         is_right = account.check_password(password)
-        print('===============> is right', file=sys.stderr)
         if not is_right:
             response_object['status'] = 'FAIL'
             response_object['message'] = "Password doesn't match!"
@@ -139,36 +105,41 @@ class AuthenResource(Resource):
         response_object['return_id'] = account.id
         return jsonify(response_object)
 
-class CreateAccount(Resource):
+class SignUpResource(Resource):
     def post(self):
-        # try:
-        #     email =  request.form['email']
-        #     password =  request.form['password']
-        #     password2 =  request.form['password2']
-        #     user_name =  request.form['name']
-        #     last_name =  request.form['lastname']
-        #     adress =  request.form['adress']
-        #     phone = request.form['phone']
+        response_object = {
+            'status': 'SUCCESS',
+            'message': 'Successfully registered.',
+            'return_id': 0}
 
-        #     new_account = Account(email , fisrt_name, last_name, 
-        #             phone, password, adress)
+        args = account_parser.parse_args()
+        print('args %s' % str(args), file=sys.stderr)
+        email =  args['email']
+        password =  args['password']
+        password2 =  args['password2']
+        user_name =  args['name']
 
-        #     db.session.add(new_account)
-        #     db.session.commit()
-        #     new_id = new_account.id
-        #     response_object = {
-        #         'status': 'success',
-        #         'message': 'Successfully registered.',
-        #         'new_id': new_id
-        #     }
-        #     return response_object, 201
-        # except Exception as e:
-        #     response_object = {
-        #         'status': 'fail',
-        #         'message': 'Some error occurred. Please try again.'
-        #     }
-        #     return response_object, 401
-        pass
+        if not email or not password or not user_name:
+            print('not email or not password or not user_name', file=sys.stderr)
+            response_object['status'] = 'FAIL'
+            response_object['message'] = 'Some information missing!'
+            return jsonify(response_object)
+        exists_email = db.session.query(Account).filter_by(email=email).first()
+        if exists_email:
+            print('exists_email', file=sys.stderr)
+            response_object['status'] = 'FAIL'
+            response_object['message'] = 'Email is existed, please choose another email'
+            return jsonify(response_object)
+
+        hash_passowrd = Account.hashing_password(self, password)
+        new_account = Account(user_name, email, hash_passowrd)
+
+        db.session.add(new_account)
+        db.session.commit()
+        new_id = new_account.id
+        response_object['return_id'] = new_id
+        db.session.remove()
+        return jsonify(response_object)
 
 class CreateRoleUser(Resource):
     def post(self):

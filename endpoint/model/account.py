@@ -15,9 +15,9 @@ class Account(db.Model):
     phone = db.Column(db.String(10))
     active = db.Column(db.Boolean)
     password_hash = db.Column(db.String(255))
-    adress = db.Column(db.String(100))
+    address = db.Column(db.String(100))
 
-    def __init__(self, first_name, email, password_hash, last_name=None, phone=None,  adress=None):
+    def __init__(self, first_name, email, password_hash, last_name=None, phone=None,  address=None):
         self.email = email
         self.first_name = first_name
         self.password_hash = password_hash
@@ -25,8 +25,8 @@ class Account(db.Model):
             self.last_name = name
         if phone:
             self.phone = phone
-        if adress:
-            self.adress = adress
+        if address:
+            self.address = address
         self.active = True
 
     @staticmethod

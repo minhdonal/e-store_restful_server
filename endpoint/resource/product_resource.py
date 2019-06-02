@@ -40,7 +40,7 @@ class ProductListResource(Resource):
         if search_categ_id and search_categ_id > 0:
             products = db.session.query(Product).filter_by(categ_id=categ_id).limit(6).all()
         else:
-            products = db.session.query(Product).limit(20).all()
+            products = db.session.query(Product).limit(30).all()
         db.session.remove()
         return products
 
