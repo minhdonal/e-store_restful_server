@@ -26,7 +26,7 @@ class Product extends PureComponent {
 	}
 	postData(){
 		if(this.state.password === this.state.ConfirmPassword)
-		{let url = '/api/createaccount';
+		{let url = '/api/signup';
 				let formdata = new FormData();
 				formdata.append("email", this.state.email);
 				formdata.append("password", this.state.password);
@@ -42,7 +42,7 @@ class Product extends PureComponent {
 					.then(res=>res.json())
 					.then(res=>
 					{
-						if(res.status==='success')
+						if(res.status==='SUCCESS')
 						{
 							this.setState({show:false});
 							alert('Import success');
@@ -60,7 +60,7 @@ class Product extends PureComponent {
 				}
 	}
 	getData(){
-		let url = '/api/account';
+		let url = '/api/accounts';
 		let options = {
 				method: 'GET'
 			};

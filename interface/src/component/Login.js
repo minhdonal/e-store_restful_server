@@ -18,7 +18,7 @@ class Login extends PureComponent{
       
     }
    postData(){
-    let url = '/api/account';
+    let url = '/api/login';
     let formdata = new FormData();
     formdata.append("email", this.state.username);
     formdata.append("password", this.state.password);
@@ -31,9 +31,10 @@ class Login extends PureComponent{
       .then(res=>res.json())
       .then(res=>
       {
-        if(res.role==='admin')
+        console.log('res',res);
+        if(res.status==='SUCCESS')
         {
-          localStorage.setItem('Auth',res.id_user);
+          localStorage.setItem('Auth',res.return_id);
           window.location.href="/";
         }
         else {

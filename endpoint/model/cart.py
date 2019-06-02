@@ -11,21 +11,20 @@ class SaleOrder(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     total = db.Column(db.Float)
     user_id = db.Column(db.Integer)
-    order_date = db.Column(Date, default=datetime.utcnow().date())
+    order_date = db.Column(db.DateTime,
+        nullable=False,
+        default=datetime.datetime.utcnow().date())
     address = db.Column(db.String(100))
     phone = db.Column(db.String(10))
     state = db.Column(db.String(10))
 
-    def __init__(self, total, user_id, order_date, address, phone):
+    def __init__(self, total, user_id, order_date, address, phone, state='draft'):
         self.total = total
         self.user_id = user_id
-        print('order_date' % str(order_date), file=sys.stderr)
-        the_date = datetime.datetime.strptime(order_date, "%Y-%m-%d").date()
-        self.order_date = the_date
-        print('the_date' % str(the_date), file=sys.stderr)
+        self.order_date = order_date
         self.address = address
         self.phone = phone
-        self.state = 'draft'
+        self.state = state
 
     def __repr__(self):
         result_obj = {

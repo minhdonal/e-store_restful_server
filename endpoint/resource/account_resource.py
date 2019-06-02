@@ -70,6 +70,13 @@ class AccountResource(Resource):
     #         return temp_fields
     #     return response_object
 
+class AccountListResource(Resource):
+    @marshal_with(account_fields)
+    def get(self):
+        accounts = db.session.query(Account).all()
+        db.session.remove()
+        return accounts
+
 class AuthenResource(Resource):
     @marshal_with(account_fields)
     def get(self, account_id):
@@ -85,7 +92,8 @@ class AuthenResource(Resource):
         args = account_parser.parse_args()
         email =  args['email']
         password =  args['password']
-
+        print("=====================> email %s" % email, file=sys.stderr)
+        print("=====================> password %s" % password, file=sys.stderr)
         if not email or not password:
             response_object['status'] = 'FAIL'
             response_object['message'] = 'Some information missing!'

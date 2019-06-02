@@ -35,6 +35,7 @@ class Account(db.Model):
 
     def check_password(self, raw_password):
         return check_password_hash(self.password_hash, raw_password)
+        # return self.password_hash == raw_password
 
     def return_id(self):
         return self.id

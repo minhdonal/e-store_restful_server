@@ -14,7 +14,7 @@ class Order extends PureComponent {
 		this.getOrderLineData()
 	}
 	getSaleOrderData(){
-		let url = '/api/saleorder';
+		let url = '/api/sale_order';
 		let options = {
 				method: 'GET'
 			};

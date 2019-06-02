@@ -27,7 +27,8 @@ from endpoint.resource.product_resource import (
 from endpoint.resource.algorthm_resource import (AlgorithmResource,
         RecommendResource, ReadRawDataRecommend)
 from endpoint.resource.account_resource import (AccountResource,
-        SignUpResource, CreateRoleUser, AuthenResource)
+        SignUpResource, CreateRoleUser,
+        AuthenResource, AccountListResource)
 from endpoint.resource.cart_resource import (SaleOrderResource,
         OrderLineResource)
 
@@ -37,6 +38,7 @@ api.add_resource(ProductListResource, '/products')
 api.add_resource(ProductResource, '/products/<int:product_id>')
 	
 api.add_resource(AccountResource, '/account/<int:account_id>')
+api.add_resource(AccountListResource, '/accounts')
 api.add_resource(AuthenResource, '/login')
 api.add_resource(SignUpResource, '/signup')
 api.add_resource(CreateRoleUser, '/create_role_user')
