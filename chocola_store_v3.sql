@@ -398,7 +398,7 @@ INSERT INTO `roles` (`id`, `name`, `inserted_at`, `updated_at`) VALUES
 
 CREATE TABLE `sales_order` (
   `id` int(11) NOT NULL,
-  `order_date` date DEFAULT CURRENT_TIMESTAMP,
+  `order_date` date,
   `total` decimal(10,0) NOT NULL,
   `user_id` int(11) NOT NULL,
   `address` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
