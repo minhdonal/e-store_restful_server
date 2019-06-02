@@ -30,8 +30,7 @@ class Product extends PureComponent {
 				let formdata = new FormData();
 				formdata.append("email", this.state.email);
 				formdata.append("password", this.state.password);
-				formdata.append("fisrtname", this.state.first_name);
-				formdata.append("lastname", this.state.last_name);
+				formdata.append("name", this.state.first_name + " " + this.state.last_name);
 				formdata.append("adress", this.state.adress);
 				formdata.append("phone", this.state.phone);
 				let options = {
@@ -76,7 +75,6 @@ class Product extends PureComponent {
 	                      <td key={index+'td1'}>{records.id} </td>
 	                       <td key={index+'td7'}>{records.email} </td>
 	                      <td key={index+'td2'}>{records.first_name} </td>
-                      <td key={index+'td3'}>{records.last_name} </td>
                       <td key={index+'td4'}>{records.role} </td>
                       <td key={index+'td5'}>{records.phone} </td>
                       <td key={index+'td6'}>{records.adress} </td>
@@ -106,8 +104,7 @@ class Product extends PureComponent {
 			<tr key={'tr1'}>
 			<th key={'th1'}>Id User</th>
 			<th key={'th2'}>Email</th>
-			<th key={'th3'}>First Name</th>
-			<th key={'th4'}>Last Name</th>
+			<th key={'th3'}>Name</th>
 			<th key={'th5'}>Role</th>
 			<th key={'th6'}>Phone</th>
 			<th key={'th7'}>Adress</th>
