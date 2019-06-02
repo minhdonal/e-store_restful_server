@@ -46,19 +46,17 @@ class OrderLine(db.Model):
     quantity = db.Column(db.Integer)
     price_unit = db.Column(db.Float)
 
-    def __init__(self, order_id, quantity, subtotal, product_id):
-        self.product_id = product_id
+    def __init__(self, order_id, product_id, quantity, price_unit):
         self.order_id = order_id
+        self.product_id = product_id
         self.quantity = quantity
-        self.subtotal = subtotal
+        self.price_unit = price_unit
 
     def __repr__(self):
         result_obj = {
             'id': self.id,
+            'quantity': self.quantity,
             'order_id': self.order_id,
             'product_id': self.product_id,
-            'price_unit': self.price_unit,
-            'inserted_at': self.inserted_at
-        }
-
+            'price_unit': self.price_unit,}
         return result_obj

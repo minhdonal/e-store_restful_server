@@ -3,6 +3,7 @@ from flask import request, jsonify
 from flask_restful import Resource, reqparse, request
 from flask_restful import fields, marshal_with, marshal
 
+import json
 import sys
 
 saleoder_fields = {
@@ -43,10 +44,11 @@ class SaleOrderResource(Resource):
             order_date = args['order_date']
             phone = args['phone']
             address = args['address']
-            # order_lines = args['order_lines']
-            # if not order_lines:
-            #     response_object['message'] = "The order doesn't have any product?"
-            #     return jsonify(response_object)
+            order_lines = args['order_lines']
+            if not order_lines:
+                response_object['message'] = "The order doesn't have any product?"
+                return jsonify(response_object)
+
             new_order = SaleOrder(total, user_id, order_date, phone, address)
             db.session.add(new_order)
             db.session.commit()
@@ -54,9 +56,13 @@ class SaleOrderResource(Resource):
             # refesh will help get a new id    
             db.session.refresh(new_order)
             new_id = new_order.id
+            if not new_id:
+                return jsonify(response_object)
 
-            isAddedDetail = self._add_order_detail()
-            if isAddedDetail:
+            is_added_detail_done =\
+                self._add_order_detail(new_id, order_lines)
+            print('is_added_detail_done %s' % str(is_added_detail_done), file=sys.stderr)
+            if is_added_detail_done:
                 response_object['status'] = 'SUCCESS'
                 response_object['message'] = 'Successfully ordering!'
                 response_object['return_id'] = new_id
@@ -66,8 +72,23 @@ class SaleOrderResource(Resource):
         except Exception as e:
             return jsonify(response_object)
 
-    def _add_order_detail(self):
-        pass
+    def _add_order_detail(self, order_id, order_lines):
+        # Convert string to JSON data (list of dictionary)
+        entries = eval(order_lines)
+        if not order_id or not order_lines:
+            return False
+        try:
+            for val in entries:
+                order_line = OrderLine(
+                    order_id,
+                    val.get('product_id'),
+                    val.get('quantity'),
+                    val.get('price_unit'))
+                db.session.add(order_line)
+            db.session.commit()
+            return True
+        except Exception as e:
+            return False
 
     @marshal_with(saleoder_fields, envelope='data')
     def get(self, ):
@@ -82,9 +103,8 @@ class OrderLineResource(Resource):
             order_id = request.form['order_id']
             quantity = request.form['quantity']
 
-            new_order = OrderLine(order_id,
-            quantity, subtotal,product_id)
-            
+            new_order = OrderLine(order_id, quantity, subtotal,product_id)
+
             db.session.add(new_order)
             db.session.commit()
 
