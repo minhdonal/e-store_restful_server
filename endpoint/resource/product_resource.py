@@ -3,6 +3,7 @@ from endpoint.model.recomend_product import Recomend
 from flask import abort, jsonify
 from flask_restful import Resource, reqparse, request
 from flask_restful import fields, marshal_with, marshal
+from sqlalchemy import or_
 
 product_fields = {
     'id': fields.Integer,
@@ -36,11 +37,18 @@ class ProductListResource(Resource):
 
     @marshal_with(product_fields)
     def get(self):
-        search_categ_id = request.args.get('categ_id', type = int)
+        search_categ_id = request.args.get('categ_id', type=int)
+        search_key = request.args.get('search_key', type=str)
         if search_categ_id and search_categ_id > 0:
-            products = db.session.query(Product).filter_by(categ_id=categ_id).limit(6).all()
+            products = db.session.query(Product).filter_by(categ_id=search_categ_id).limit(6).all()
+        elif search_key:
+            search_format = '%{}%'.format(search_key)
+            products = db.session.query(Product).filter(
+                or_(Product.name.like(search_format), Product.description.like(search_format))
+            ).all()
         else:
             products = db.session.query(Product).limit(30).all()
+
         db.session.remove()
         return products
 

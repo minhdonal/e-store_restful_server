@@ -90,9 +90,13 @@ class SaleOrderResource(Resource):
         except Exception as e:
             return False
 
-    @marshal_with(saleoder_fields, envelope='data')
-    def get(self, ):
-        records = SaleOrder.query.all()
+    @marshal_with(saleoder_fields)
+    def get(self):
+        search_user_id = request.args.get('user_id', type=int)
+        if search_user_id and search_user_id > 0:
+            records = SaleOrder.query.filter_by(user_id=search_user_id).all()
+        else:
+            records = SaleOrder.query.all()
         db.session.remove()
         return records
 

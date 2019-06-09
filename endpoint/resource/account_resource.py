@@ -25,9 +25,7 @@ account_parser.add_argument('password2')
 class AccountResource(Resource):
     @marshal_with(account_fields)
     def get(self, account_id):
-        print('search_account_id %s' % str(account_id), file=sys.stderr)
         account = db.session.query(Account).filter_by(id=account_id).first()
-        print('search_account_id %s' % str(account), file=sys.stderr)
         db.session.remove()
         if not account:
             abort(400, message="Account {} doesn't exist".format(account_id))
@@ -92,8 +90,7 @@ class AuthenResource(Resource):
         args = account_parser.parse_args()
         email =  args['email']
         password =  args['password']
-        print("=====================> email %s" % email, file=sys.stderr)
-        print("=====================> password %s" % password, file=sys.stderr)
+
         if not email or not password:
             response_object['status'] = 'FAIL'
             response_object['message'] = 'Some information missing!'
